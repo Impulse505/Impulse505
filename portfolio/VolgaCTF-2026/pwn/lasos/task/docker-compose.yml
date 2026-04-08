@@ -1,0 +1,17 @@
+services:
+  pwn_las_os:
+    build: .
+    container_name: pwn_las_os_container
+    ports:
+      - 45004:5000
+    privileged: true
+    devices:
+     - "/dev/kvm:/dev/kvm"
+    restart: always
+    environment:
+      - JAIL_TIME=300
+      - JAIL_CPU=500
+      - JAIL_MEM=256M
+      - JAIL_PIDS=512
+      - JAIL_DEV=null,zero,urandom,kvm
+
