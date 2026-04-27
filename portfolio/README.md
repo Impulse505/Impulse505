@@ -65,6 +65,12 @@ Competition held in 2026.
 
 - **VolgaCTF 2026** — Pwn, Web, Crypto, Stego
 - **AlfaCTF 2026** — Web, Reverse, Misc
+- **MIA CTF 2026** 
+- **RedShift CTF 2026** 
+- **RedShift CTF 2026** 
+- **DUCKERZ CTF 2026** 
+- **Кубок регионов 2025** 
+- **Б152** 
 - *(More coming soon)*
 
 ---
