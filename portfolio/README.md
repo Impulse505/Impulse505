@@ -63,8 +63,8 @@ Competition held in 2026.
 
 ## 📜 [Certifications & Achievements](./certificates/README.md)
 
-- **VolgaCTF 2026** — Pwn, Web, Crypto, Stego
-- **AlfaCTF 2026** — Web, Reverse, Misc
+- **VolgaCTF 2026**
+- **AlfaCTF 2026** 
 - **MIA CTF 2026** 
 - **RedShift CTF 2026** 
 - **RedShift CTF 2026** 
