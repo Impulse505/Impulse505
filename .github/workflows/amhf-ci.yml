@@ -1,25 +1,3 @@
-# =============================================================================
-#  AMHF — Continuous Integration
-# =============================================================================
-#  ⚠️  PLACEMENT (read before committing):
-#
-#  AMHF lives as a SUBDIRECTORY of the portfolio monorepo
-#  (github.com/Impulse505/Impulse505), at:  portfolio/pet-projects/amhf/
-#
-#  GitHub Actions only runs workflows found in  <repo-root>/.github/workflows/.
-#  Therefore THIS FILE MUST BE PLACED AT THE MONOREPO ROOT:
-#
-#       Impulse505/Impulse505/.github/workflows/amhf-ci.yml
-#
-#  A copy sitting at portfolio/pet-projects/amhf/.github/workflows/ is INERT —
-#  GitHub ignores nested .github directories. Move (don't just copy) this file
-#  to the monorepo root, then commit.
-#
-#  PROJECT_DIR: if you name the folder anything other than
-#  `portfolio/pet-projects/amhf`, update every occurrence below (paths filters,
-#  working-directory, cache-dependency-path — 5 spots, all marked PROJECT_DIR).
-# =============================================================================
-
 name: amhf-ci
 
 on:
