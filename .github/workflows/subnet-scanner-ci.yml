@@ -1,14 +1,3 @@
-# subnet-scanner CI — monorepo edition.
-#
-# This project ships as a subdirectory of the Impulse505/Impulse505 monorepo
-# (portfolio/pet-projects/subnet-scanner). GitHub only runs workflows found in
-# the repository-root .github/workflows/, so when integrating, place this file
-# at the MONOREPO ROOT:
-#
-#     Impulse505/Impulse505/.github/workflows/subnet-scanner-ci.yml
-#
-# The paths filter keeps it from running on unrelated monorepo changes, and
-# working-directory pins every step to the subproject.
 name: subnet-scanner CI
 
 on:
