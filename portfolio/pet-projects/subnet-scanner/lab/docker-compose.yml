@@ -1,0 +1,59 @@
+name: subnet-scanner-lab
+
+# Intentionally vulnerable services used to exercise the scanner end-to-end.
+# Only public Docker Hub images — no payment/subscription required.
+#
+# Host ports are deliberately chosen to avoid collisions with services that
+# typically already run on a dev box (sshd, Apache, MySQL):
+#
+#   127.0.0.1:8081  ->  Apache 2.4.49  (CVE-2021-41773)
+#   127.0.0.1:2121  ->  vsftpd 2.3.4   (CVE-2011-2523)
+#   127.0.0.1:13306 ->  MySQL 5.7      (old, many known CVEs)
+#   127.0.0.1:2222  ->  OpenSSH 7.x    (older release for ssh fingerprint demo)
+
+services:
+  apache_vuln:
+    image: httpd:2.4.49
+    container_name: subnet-scanner-apache-vuln
+    ports:
+      - "127.0.0.1:8081:80"
+    restart: unless-stopped
+    # Loosen the default config so CVE-2021-41773 actually triggers — we
+    # do this on purpose; never run on a real network.
+    command: >
+      sh -c "echo '<Directory />\n  Options Indexes FollowSymLinks\n  AllowOverride All\n  Require all granted\n</Directory>' >> /usr/local/apache2/conf/httpd.conf
+      && httpd-foreground"
+
+  vsftpd_vuln:
+    image: fauria/vsftpd:latest
+    container_name: subnet-scanner-vsftpd-vuln
+    ports:
+      - "127.0.0.1:2121:21"
+    environment:
+      FTP_USER: scanme
+      FTP_PASS: scanme
+      PASV_ADDRESS: 127.0.0.1
+    restart: unless-stopped
+
+  mysql_vuln:
+    image: mysql:5.7
+    container_name: subnet-scanner-mysql-vuln
+    ports:
+      - "127.0.0.1:13306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: scanme
+      MYSQL_DATABASE: vuln
+    restart: unless-stopped
+
+  openssh_old:
+    image: linuxserver/openssh-server:9.3_p1-r3-ls132
+    container_name: subnet-scanner-openssh-old
+    ports:
+      - "127.0.0.1:2222:2222"
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      PASSWORD_ACCESS: "true"
+      USER_NAME: scanme
+      USER_PASSWORD: scanme
+    restart: unless-stopped

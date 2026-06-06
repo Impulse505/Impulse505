@@ -1,0 +1,405 @@
+# AMHF Legitimate-Traffic Corpus — Stage 6 FPR baseline.
+# 50 безвредных payload-ов для измерения False Positive Rate WAF-ов.
+# Класс ставится фиктивный (используем sqli, чтобы оракул мог
+# конструироваться), но expected_markers = [] — ни одна нагрузка не
+# должна давать exploit_confirmed.
+
+- id: legit_id_001
+  class: sqli
+  payload: "1"
+  description: Числовой ID, нормальный
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_id_002
+  class: sqli
+  payload: "42"
+  description: Другой числовой ID
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_id_003
+  class: sqli
+  payload: "100"
+  description: Трёхзначный
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_name_001
+  class: sqli
+  payload: "John"
+  description: Имя (англ)
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_name_002
+  class: sqli
+  payload: "Mary"
+  description: Имя (англ)
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_name_003
+  class: sqli
+  payload: "Иван"
+  description: Имя (рус)
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_search_001
+  class: sqli
+  payload: "python"
+  description: Поисковый запрос
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_search_002
+  class: sqli
+  payload: "machine learning"
+  description: Поисковый запрос с пробелом
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_search_003
+  class: sqli
+  payload: "web application security"
+  description: Длинный поисковый
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_email_001
+  class: sqli
+  payload: "user@example.com"
+  description: Email
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_email_002
+  class: sqli
+  payload: "admin@company.org"
+  description: Email
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_url_001
+  class: sqli
+  payload: "https://example.com/page"
+  description: URL
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_url_002
+  class: sqli
+  payload: "/about"
+  description: Относительный URL
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_phone_001
+  class: sqli
+  payload: "+1-555-0100"
+  description: Телефон US
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_phone_002
+  class: sqli
+  payload: "+7 (495) 123-45-67"
+  description: Телефон RU
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_date_001
+  class: sqli
+  payload: "2024-12-31"
+  description: ISO date
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_date_002
+  class: sqli
+  payload: "31.12.2024"
+  description: Date RU
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_text_001
+  class: sqli
+  payload: "Hello world"
+  description: Простой текст
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_text_002
+  class: sqli
+  payload: "How are you today?"
+  description: Текст с пунктуацией
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_text_003
+  class: sqli
+  payload: "Test message #123"
+  description: Текст с символами
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_alpha_001
+  class: sqli
+  payload: "abcdef"
+  description: Буквы lowercase
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_alpha_002
+  class: sqli
+  payload: "ABCDEF"
+  description: Буквы uppercase
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_mixed_001
+  class: sqli
+  payload: "user_123"
+  description: Альфанум с _
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_mixed_002
+  class: sqli
+  payload: "product-name-99"
+  description: Альфанум с -
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_filename_001
+  class: sqli
+  payload: "report.pdf"
+  description: Имя файла
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_filename_002
+  class: sqli
+  payload: "image_2024.jpg"
+  description: Имя файла с цифрами
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_color_001
+  class: sqli
+  payload: "blue"
+  description: Цвет
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_color_002
+  class: sqli
+  payload: "#FF6B6B"
+  description: HEX-цвет
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_lang_001
+  class: sqli
+  payload: "en-US"
+  description: Locale
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_lang_002
+  class: sqli
+  payload: "ru_RU.UTF-8"
+  description: Locale с кодировкой
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_uuid_001
+  class: sqli
+  payload: "550e8400-e29b-41d4-a716-446655440000"
+  description: UUID v4
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_iban_001
+  class: sqli
+  payload: "DE89370400440532013000"
+  description: IBAN-номер
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_long_001
+  class: sqli
+  payload: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+  description: Длинный текст
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_long_002
+  class: sqli
+  payload: "The quick brown fox jumps over the lazy dog"
+  description: Pangram
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_num_001
+  class: sqli
+  payload: "3.14159"
+  description: Float
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_num_002
+  class: sqli
+  payload: "1.5e10"
+  description: Scientific notation
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_neg_001
+  class: sqli
+  payload: "-42"
+  description: Negative integer
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_zero_001
+  class: sqli
+  payload: "0"
+  description: Zero
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_bool_001
+  class: sqli
+  payload: "true"
+  description: Boolean string
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_bool_002
+  class: sqli
+  payload: "false"
+  description: Boolean string
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_brand_001
+  class: sqli
+  payload: "Apple"
+  description: Brand name
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_brand_002
+  class: sqli
+  payload: "Microsoft Office 2019"
+  description: Brand + version
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_addr_001
+  class: sqli
+  payload: "123 Main St"
+  description: Адрес
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_addr_002
+  class: sqli
+  payload: "ул. Ленина 42"
+  description: Адрес RU
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_iso_country_001
+  class: sqli
+  payload: "RU"
+  description: ISO country
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_iso_country_002
+  class: sqli
+  payload: "Germany"
+  description: Country name
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_word_001
+  class: sqli
+  payload: "category"
+  description: Single word
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_word_002
+  class: sqli
+  payload: "subscription"
+  description: Single word
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_unicode_001
+  class: sqli
+  payload: "Москва 2024"
+  description: Кириллица + цифры
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign
+
+- id: legit_unicode_002
+  class: sqli
+  payload: "東京タワー"
+  description: Японский текст
+  expected_markers: []
+  difficulty: trivial
+  source: synthetic-benign

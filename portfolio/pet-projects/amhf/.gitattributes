@@ -1,0 +1,10 @@
+# Normalize line endings: store LF in the repository on every platform.
+* text=auto
+
+# Shell scripts must stay LF even when checked out on Windows.
+*.sh text eol=lf
+
+# Binary assets — never normalize or diff as text.
+*.png binary
+*.db binary
+*.sqlite binary

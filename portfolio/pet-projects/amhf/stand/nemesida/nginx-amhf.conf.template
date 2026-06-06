@@ -1,0 +1,22 @@
+# Nemesida server block — minimal pass-through with the dynamic module loaded.
+# This file is rendered into /etc/nginx/conf.d/amhf.conf at boot.
+
+load_module modules/ngx_http_waf_module.so;
+
+server {
+    listen 80 default_server;
+    server_name _;
+
+    location = /healthz {
+        return 200 "ok\n";
+        add_header Content-Type text/plain;
+    }
+
+    location / {
+        nwaf_unconditional_checks on;
+        proxy_pass http://${BACKEND_HOST}:${BACKEND_PORT}/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}

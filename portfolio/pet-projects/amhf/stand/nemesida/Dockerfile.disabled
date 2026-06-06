@@ -1,0 +1,30 @@
+# AMHF Nemesida WAF Free image — DISABLED by default. Enable only after you
+# have placed your registered repo credentials at stand/nemesida/secret/.
+# See stand/nemesida/README.md for the procedure.
+#
+# Pinned target: Nemesida WAF Free 4.x (as of 2026-04). State the exact patch
+# version your build resolved to in your write-up.
+
+FROM debian:12-slim
+
+ARG NEMESIDA_DISTRO=bookworm
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        curl ca-certificates gnupg gettext nginx \
+    && rm -rf /var/lib/apt/lists/*
+
+# Place the apt source and key — these come from your private registration.
+COPY secret/nemesida.list /etc/apt/sources.list.d/nemesida.list
+COPY secret/nemesida.gpg /etc/apt/trusted.gpg.d/nemesida.gpg
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends nwaf-dyn \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY nginx-amhf.conf.template /etc/nginx/templates/amhf.conf.template
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+EXPOSE 80
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

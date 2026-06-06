@@ -1,0 +1,104 @@
+# AMHF default configuration. Use as a template for scenario configs.
+# Schema: amhf.config.Config (pydantic v2). Unknown keys are rejected.
+
+run:
+  total_requests: 5000
+  concurrency: 20
+  request_timeout_s: 10.0
+  rate_limit_rps: 50.0
+  seed: 42
+  resume_from: null   # путь к results/run-XXXX, если продолжаем эксперимент
+
+target:
+  name: dvwa-modsec
+  base_url: http://localhost:8080
+  endpoints:
+    - path: /vulnerabilities/sqli/
+      method: GET
+      params:
+        id: "1"
+        Submit: "Submit"
+      attack_class: sqli
+      param_to_fuzz: id
+      session_cookie: "PHPSESSID=changeme; security=low"
+
+corpus:
+  paths:
+    - corpus/sqli.yaml
+  filter_class: sqli
+  max_payloads: null
+
+scheduler:
+  type: ucb_with_ga
+  initial_pool_size: 30
+  max_chromosome_length: 5
+  ucb_c: 1.41   # коэффициент при sqrt(ln N / n_i)
+  ga:
+    period: 200
+    top_k: 8
+    offspring_per_round: 6
+    p_replace: 0.10
+    p_insert: 0.05
+    p_delete: 0.05
+    min_plays_for_selection: 3
+
+mutators:
+  payload:
+    - url_encode
+    - double_url_encode
+    - html_entity
+    - hex_encode
+    - case_toggle
+    - comment_inject
+    - keyword_fragment
+    - null_byte
+  body:
+    - content_type_swap
+    - multipart_boundary
+    - param_pollution
+  headers:
+    - duplicate
+    - case_jiggle
+    - transfer_encoding_collision
+  url:
+    - path_normalize
+    - segment_inject
+    - percent_encode_path
+
+oracle:
+  waf:
+    blocked_codes: [403, 406, 501, 418, 419]
+    blocked_body_signatures:
+      - "Access Denied"
+      - "ModSecurity"
+      - "Nemesida WAF"
+      - "NAXSI"
+      - "Forbidden"
+    block_page_size_max: 4096
+  backend:
+    timing_k: 3.0
+    timing_baseline_min_samples: 20
+    sqli:
+      error_signatures:
+        - "You have an error in your SQL syntax"
+        - "PostgreSQL"
+        - "ORA-"
+        - "SQLite"
+      flag_marker: "AMHF_FLAG_"
+      time_delay_threshold_ms: 2500.0
+    xss:
+      reflection_check: true
+    cmdi:
+      command_marker: "amhf_cmd_marker"
+    pathtrav:
+      canary_marker: "amhf_canary_v1"
+
+storage:
+  output_dir: "results/run-{timestamp}"
+  formats: [csv, sqlite]
+  flush_every: 100
+
+logging:
+  level: INFO
+  json_file: "logs/amhf-{timestamp}.jsonl"
+  human_console: true

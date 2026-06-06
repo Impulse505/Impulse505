@@ -1,0 +1,105 @@
+# =============================================================================
+#  AMHF — Continuous Integration
+# =============================================================================
+#  ⚠️  PLACEMENT (read before committing):
+#
+#  AMHF lives as a SUBDIRECTORY of the portfolio monorepo
+#  (github.com/Impulse505/Impulse505), at:  portfolio/pet-projects/amhf/
+#
+#  GitHub Actions only runs workflows found in  <repo-root>/.github/workflows/.
+#  Therefore THIS FILE MUST BE PLACED AT THE MONOREPO ROOT:
+#
+#       Impulse505/Impulse505/.github/workflows/amhf-ci.yml
+#
+#  A copy sitting at portfolio/pet-projects/amhf/.github/workflows/ is INERT —
+#  GitHub ignores nested .github directories. Move (don't just copy) this file
+#  to the monorepo root, then commit.
+#
+#  PROJECT_DIR: if you name the folder anything other than
+#  `portfolio/pet-projects/amhf`, update every occurrence below (paths filters,
+#  working-directory, cache-dependency-path — 5 spots, all marked PROJECT_DIR).
+# =============================================================================
+
+name: amhf-ci
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'portfolio/pet-projects/amhf/**'          # PROJECT_DIR
+      - '.github/workflows/amhf-ci.yml'
+  pull_request:
+    paths:
+      - 'portfolio/pet-projects/amhf/**'          # PROJECT_DIR
+      - '.github/workflows/amhf-ci.yml'
+  workflow_dispatch: {}                            # manual "Run workflow" button
+
+# Run every step inside the project subdirectory (applies to `run:` steps only;
+# `uses:` actions like checkout/setup-python operate at the workspace root).
+defaults:
+  run:
+    working-directory: portfolio/pet-projects/amhf  # PROJECT_DIR
+
+# A newer push to the same ref cancels the previous, still-running CI.
+concurrency:
+  group: amhf-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # ---------------------------------------------------------------------------
+  #  Lint + static types — single interpreter (the project's target, 3.14).
+  # ---------------------------------------------------------------------------
+  quality:
+    name: lint + types (ruff, mypy --strict)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+          cache: pip
+          cache-dependency-path: portfolio/pet-projects/amhf/pyproject.toml  # PROJECT_DIR
+
+      - name: Install project (with dev extras)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: ruff check
+        run: ruff check .
+
+      - name: mypy --strict
+        run: mypy amhf
+
+  # ---------------------------------------------------------------------------
+  #  Tests + coverage gate — full support matrix (3.11 → 3.14).
+  #  `-m "not stand"` excludes tests that need the live Docker stand (none yet,
+  #  but future-proofs CI). Coverage gate: >=70% (project policy).
+  # ---------------------------------------------------------------------------
+  test:
+    name: pytest (py${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12', '3.13', '3.14']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: portfolio/pet-projects/amhf/pyproject.toml  # PROJECT_DIR
+
+      - name: Install project (with dev extras)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: pytest + coverage gate (>=70%)
+        run: pytest -m "not stand" --cov=amhf --cov-report=term-missing --cov-fail-under=70

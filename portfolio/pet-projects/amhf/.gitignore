@@ -1,0 +1,51 @@
+# Byte-compiled / optimized
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Virtual envs
+.venv/
+venv/
+ENV/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.mypy_cache/
+.ruff_cache/
+
+# AMHF runtime artefacts
+results/
+logs/
+*.db
+*.sqlite
+*.sqlite3
+
+# Editor / OS
+.vscode/
+.idea/
+
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Docker stand (build artifacts)
+stand/**/.modsec-build/
+stand/**/.naxsi-build/
+stand/**/.nemesida-build/

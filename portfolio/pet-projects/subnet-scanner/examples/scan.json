@@ -1,0 +1,134 @@
+{
+  "started_at": "2026-06-06T14:30:00+00:00",
+  "finished_at": "2026-06-06T14:30:02.400000+00:00",
+  "hosts": [
+    {
+      "host": {
+        "ip": "10.0.0.5",
+        "alive": true,
+        "discovered_at": "2026-06-06T14:30:00+00:00",
+        "mac": "52:54:00:a1:b2:c3",
+        "hostname": null,
+        "method": "tcp+arp"
+      },
+      "open_ports": [
+        {
+          "port": 22,
+          "protocol": "tcp",
+          "service": {
+            "name": "ssh",
+            "version": "OpenSSH_7.4",
+            "raw_banner": "SSH-2.0-OpenSSH_7.4"
+          },
+          "cves": [
+            {
+              "cve_id": "CVE-2016-10009",
+              "cvss_score": 7.5,
+              "cvss_severity": "HIGH",
+              "summary": "Untrusted search path in ssh-agent.",
+              "published": "2021-10-05T00:00:00+00:00",
+              "references": [
+                "https://nvd.nist.gov/vuln/detail/CVE-2016-10009"
+              ]
+            }
+          ]
+        },
+        {
+          "port": 80,
+          "protocol": "tcp",
+          "service": {
+            "name": "http",
+            "version": "Apache/2.4.49 (Unix)",
+            "raw_banner": "HTTP/1.1 200 OK\r\nServer: Apache/2.4.49"
+          },
+          "cves": [
+            {
+              "cve_id": "CVE-2021-42013",
+              "cvss_score": 9.8,
+              "cvss_severity": "CRITICAL",
+              "summary": "Path traversal & RCE in Apache 2.4.49/2.4.50.",
+              "published": "2021-10-05T00:00:00+00:00",
+              "references": [
+                "https://nvd.nist.gov/vuln/detail/CVE-2021-42013"
+              ]
+            },
+            {
+              "cve_id": "CVE-2021-41773",
+              "cvss_score": 7.5,
+              "cvss_severity": "HIGH",
+              "summary": "Path traversal in Apache HTTP Server 2.4.49.",
+              "published": "2021-10-05T00:00:00+00:00",
+              "references": [
+                "https://nvd.nist.gov/vuln/detail/CVE-2021-41773"
+              ]
+            }
+          ]
+        },
+        {
+          "port": 3306,
+          "protocol": "tcp",
+          "service": {
+            "name": "mysql",
+            "version": "5.7.33",
+            "raw_banner": "5.7.33-log"
+          },
+          "cves": [
+            {
+              "cve_id": "CVE-2021-2154",
+              "cvss_score": 6.5,
+              "cvss_severity": "MEDIUM",
+              "summary": "MySQL Server DML privilege escalation.",
+              "published": "2021-10-05T00:00:00+00:00",
+              "references": [
+                "https://nvd.nist.gov/vuln/detail/CVE-2021-2154"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "host": {
+        "ip": "10.0.0.20",
+        "alive": true,
+        "discovered_at": "2026-06-06T14:30:00+00:00",
+        "mac": "00:1a:2b:3c:4d:5e",
+        "hostname": "DESKTOP-FIN01",
+        "method": "arp+nbns"
+      },
+      "open_ports": []
+    },
+    {
+      "host": {
+        "ip": "10.0.0.25",
+        "alive": true,
+        "discovered_at": "2026-06-06T14:30:00+00:00",
+        "mac": "00:0c:29:7f:8e:9d",
+        "hostname": "WIN-DC01",
+        "method": "tcp+arp+nbns"
+      },
+      "open_ports": [
+        {
+          "port": 445,
+          "protocol": "tcp",
+          "service": {
+            "name": "smb",
+            "version": "SMB 3.1.1",
+            "raw_banner": "SMB2 NEGOTIATE response"
+          },
+          "cves": []
+        },
+        {
+          "port": 3389,
+          "protocol": "tcp",
+          "service": {
+            "name": "rdp",
+            "version": null,
+            "raw_banner": ""
+          },
+          "cves": []
+        }
+      ]
+    }
+  ]
+}

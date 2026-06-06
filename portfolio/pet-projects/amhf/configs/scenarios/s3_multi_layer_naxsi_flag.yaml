@@ -1,0 +1,97 @@
+run:
+  total_requests: 2000
+  concurrency: 20
+  request_timeout_s: 10.0
+  rate_limit_rps: 50.0
+  seed: 42
+  resume_from: null
+target:
+  name: naxsi-flag
+  base_url: http://localhost:8091
+  endpoints:
+  - path: /sqli
+    method: GET
+    params:
+      id: '1'
+    attack_class: sqli
+    param_to_fuzz: id
+corpus:
+  paths:
+  - corpus/sqli.yaml
+  filter_class: sqli
+  max_payloads: null
+scheduler:
+  type: ucb_with_ga
+  initial_pool_size: 20
+  max_chromosome_length: 4
+  ucb_c: 1.41
+  ga:
+    period: 2100
+    top_k: 6
+    offspring_per_round: 4
+    p_replace: 0.1
+    p_insert: 0.05
+    p_delete: 0.05
+    min_plays_for_selection: 3
+mutators:
+  payload:
+  - url_encode
+  - double_url_encode
+  - html_entity
+  - hex_encode
+  - case_toggle
+  - comment_inject
+  - keyword_fragment
+  - null_byte
+  body:
+  - param_pollution
+  - content_type_swap
+  headers:
+  - case_jiggle
+  - duplicate
+  url:
+  - path_normalize
+  - percent_encode_path
+oracle:
+  waf:
+    blocked_codes:
+    - 403
+    - 406
+    - 418
+    - 419
+    - 501
+    blocked_body_signatures:
+    - ModSecurity
+    - NAXSI
+    - Forbidden
+    - Access Denied
+    - Nemesida WAF
+    block_page_size_max: 4096
+  backend:
+    timing_k: 3.0
+    timing_baseline_min_samples: 20
+    sqli:
+      error_signatures:
+      - You have an error in your SQL syntax
+      - PostgreSQL
+      - ORA-
+      - SQLite
+      flag_marker: AMHF_FLAG_
+      time_delay_threshold_ms: 2500.0
+    xss:
+      reflection_check: true
+    cmdi:
+      command_marker: amhf_cmd_marker
+    pathtrav:
+      canary_marker: amhf_canary_v1
+storage:
+  output_dir: results/run-{timestamp}-s3_multi_layer-naxsi-flag
+  formats:
+  - csv
+  - sqlite
+  - jsonl
+  flush_every: 100
+logging:
+  level: INFO
+  json_file: logs/s3_multi_layer-naxsi-flag.jsonl
+  human_console: true

@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>subnet-scanner report — 2026-06-06 14:30:00 UTC</title>
+<style>
+  :root { color-scheme: dark light; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    margin: 0;
+    padding: 24px;
+    background: #0f1115;
+    color: #e6e6e6;
+    line-height: 1.45;
+  }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; }
+  h2 { font-size: 1.15rem; margin: 24px 0 8px; }
+  .meta { color: #9aa0a6; font-size: 0.9rem; margin-bottom: 16px; }
+  .stats { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
+  .stat {
+    background: #181b21;
+    border: 1px solid #2a2f37;
+    border-radius: 8px;
+    padding: 10px 16px;
+    min-width: 140px;
+  }
+  .stat .num { font-size: 1.6rem; font-weight: 600; display: block; }
+  .stat .label { color: #9aa0a6; font-size: 0.85rem; }
+  details {
+    background: #14171c;
+    border: 1px solid #232830;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    padding: 12px 16px;
+  }
+  details[open] { background: #161a21; }
+  summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.05rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  summary .ip { color: #f5f5f5; }
+  summary .hostname { color: #80b4ff; font-weight: 500; font-size: 0.95rem; }
+  summary .counts { color: #9aa0a6; font-weight: 400; font-size: 0.9rem; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 0.92rem;
+  }
+  th, td { text-align: left; padding: 8px 10px; vertical-align: top; }
+  thead th {
+    background: #1c2027;
+    color: #c6c8cc;
+    font-weight: 500;
+    border-bottom: 1px solid #2a2f37;
+  }
+  tbody tr { border-bottom: 1px solid #1f242c; }
+  tbody tr:last-child { border-bottom: none; }
+  .banner { color: #8b8f94; font-family: "SFMono-Regular", Menlo, Consolas, monospace; font-size: 0.82rem; }
+  .severity {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .sev-CRITICAL { background: #b71c1c; color: #fff; }
+  .sev-HIGH     { background: #e65100; color: #fff; }
+  .sev-MEDIUM   { background: #f9a825; color: #1a1a1a; }
+  .sev-LOW      { background: #1976d2; color: #fff; }
+  .sev-NONE     { background: #455a64; color: #fff; }
+  .cve-table {
+    width: 100%;
+    margin-top: 6px;
+    border-collapse: collapse;
+    background: #11141a;
+  }
+  .cve-table th { background: #1a1f27; color: #b0b3b8; font-size: 0.78rem; }
+  .cve-table td { font-size: 0.85rem; }
+  .cve-summary { color: #cdd1d6; }
+  .cve-id a { color: #80b4ff; text-decoration: none; }
+  .cve-id a:hover { text-decoration: underline; }
+  .empty { color: #6c727a; font-style: italic; }
+  footer {
+    margin-top: 32px;
+    color: #6c727a;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>subnet-scanner report</h1>
+<div class="meta">
+  Started 2026-06-06 14:30:00 UTC &middot; Finished 2026-06-06 14:30:02 UTC &middot;
+  Duration 2.40s
+</div>
+
+<div class="stats">
+  <div class="stat"><span class="num">3</span><span class="label">live hosts</span></div>
+  <div class="stat"><span class="num">5</span><span class="label">open ports</span></div>
+  <div class="stat"><span class="num">4</span><span class="label">CVE matches</span></div>
+  <div class="stat"><span class="num">3</span><span class="label">critical + high</span></div>
+  <div class="stat"><span class="num">1</span><span class="label">behind firewall</span></div>
+</div>
+
+<details open>
+  <summary>
+    <span class="ip">10.0.0.5</span>
+    <span class="counts">
+52:54:00:a1:b2:c3 &middot; via tcp+arp &middot;       3 open port(s) &middot; 4 CVE(s)
+    </span>
+  </summary>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Port</th>
+        <th>Service</th>
+        <th>Version</th>
+        <th>Banner</th>
+        <th>CVE matches</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>22/tcp</td>
+        <td>ssh</td>
+        <td>OpenSSH_7.4</td>
+        <td class="banner">SSH-2.0-OpenSSH_7.4</td>
+        <td>
+          <table class="cve-table">
+            <thead><tr><th>CVE</th><th>CVSS</th><th>Severity</th><th>Summary</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="cve-id"><a href="https://nvd.nist.gov/vuln/detail/CVE-2016-10009" target="_blank" rel="noopener">CVE-2016-10009</a></td>
+                <td>7.5</td>
+                <td><span class="severity sev-HIGH">HIGH</span></td>
+                <td class="cve-summary">Untrusted search path in ssh-agent.</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>80/tcp</td>
+        <td>http</td>
+        <td>Apache/2.4.49 (Unix)</td>
+        <td class="banner">HTTP/1.1 200 OK  Server: Apache/2.4.49</td>
+        <td>
+          <table class="cve-table">
+            <thead><tr><th>CVE</th><th>CVSS</th><th>Severity</th><th>Summary</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="cve-id"><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-42013" target="_blank" rel="noopener">CVE-2021-42013</a></td>
+                <td>9.8</td>
+                <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+                <td class="cve-summary">Path traversal &amp; RCE in Apache 2.4.49/2.4.50.</td>
+              </tr>
+              <tr>
+                <td class="cve-id"><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-41773" target="_blank" rel="noopener">CVE-2021-41773</a></td>
+                <td>7.5</td>
+                <td><span class="severity sev-HIGH">HIGH</span></td>
+                <td class="cve-summary">Path traversal in Apache HTTP Server 2.4.49.</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>3306/tcp</td>
+        <td>mysql</td>
+        <td>5.7.33</td>
+        <td class="banner">5.7.33-log</td>
+        <td>
+          <table class="cve-table">
+            <thead><tr><th>CVE</th><th>CVSS</th><th>Severity</th><th>Summary</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="cve-id"><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-2154" target="_blank" rel="noopener">CVE-2021-2154</a></td>
+                <td>6.5</td>
+                <td><span class="severity sev-MEDIUM">MEDIUM</span></td>
+                <td class="cve-summary">MySQL Server DML privilege escalation.</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</details>
+<details open>
+  <summary>
+    <span class="ip">10.0.0.20 <span class="hostname">DESKTOP-FIN01</span></span>
+    <span class="counts">
+00:1a:2b:3c:4d:5e &middot; via arp+nbns &middot;       0 open port(s) &middot; 0 CVE(s)
+    </span>
+  </summary>
+
+  <p class="empty">No open ports.</p>
+</details>
+<details open>
+  <summary>
+    <span class="ip">10.0.0.25 <span class="hostname">WIN-DC01</span></span>
+    <span class="counts">
+00:0c:29:7f:8e:9d &middot; via tcp+arp+nbns &middot;       2 open port(s) &middot; 0 CVE(s)
+    </span>
+  </summary>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Port</th>
+        <th>Service</th>
+        <th>Version</th>
+        <th>Banner</th>
+        <th>CVE matches</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>445/tcp</td>
+        <td>smb</td>
+        <td>SMB 3.1.1</td>
+        <td class="banner">SMB2 NEGOTIATE response</td>
+        <td>
+          <span class="empty">no CVE matches</span>
+        </td>
+      </tr>
+      <tr>
+        <td>3389/tcp</td>
+        <td>rdp</td>
+        <td>—</td>
+        <td class="banner">—</td>
+        <td>
+          <span class="empty">no CVE matches</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</details>
+
+<footer>
+  Generated by subnet-scanner v0.2 &middot;
+  <a href="https://github.com/Impulse505/Impulse505/tree/main/portfolio/pet-projects/subnet-scanner" style="color:#80b4ff">project page</a>
+</footer>
+</body>
+</html>
